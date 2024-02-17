@@ -1,0 +1,17 @@
+version: "3"
+services:
+  frontend:
+    build: ./frontend
+    container_name: expense-sense-frontend_c
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/frontend
+  backend:
+    build: ./backend
+    container_name: expense-sense-backend_c
+    ports:
+      - 4000:4000
+    volumes:
+      - ./backend:/backend
+
