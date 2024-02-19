@@ -1,6 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model } from 'mongoose'
 
 const Schema = mongoose.Schema
+
+export interface IExpense extends Document {
+  name: string
+  description: string
+  value: number
+  categoryId: string
+  tagIds?: []
+}
 
 const expenseSchema = new Schema({
   name: {
@@ -25,4 +33,4 @@ const expenseSchema = new Schema({
   }
 }, { timestamps: true })
 
-module.exports = mongoose.model('Expense', expenseSchema)
+export const Expense: Model<IExpense> = mongoose.model<IExpense>('Expense', expenseSchema)
