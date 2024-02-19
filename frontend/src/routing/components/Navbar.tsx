@@ -10,13 +10,25 @@ const Navbar = () => {
             to='/'
             className={({ isActive, isPending }) => isActive ? "active" : ""}
           >
-            <Button href="#text-buttons">Dashboard</Button>
+            <Button>Dashboard</Button>
           </NavLink>
           <NavLink
             to='/categories'
             className={({ isActive, isPending }) => isActive ? "active" : ""}
           >
-            <Button href="#text-buttons">Categories</Button>
+            <Button>Categories</Button>
+          </NavLink>
+          <NavLink
+            to='/tags'
+            className={({ isActive, isPending }) => isActive ? "active" : ""}
+          >
+            <Button>Tags</Button>
+          </NavLink>
+          <NavLink
+            to='/expenses'
+            className={({ isActive, isPending }) => isActive ? "active" : ""}
+          >
+            <Button>Expenses</Button>
           </NavLink>
         </Stack>
       </nav>

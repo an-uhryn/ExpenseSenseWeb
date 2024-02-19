@@ -8,6 +8,8 @@ const port = process.env.PORT || 4000;
 const app: Express = express();
 const mongoose = require('mongoose');
 const categoriesRoutes = require('./routes/categories')
+const tagRoutes = require('./routes/tags')
+const expenseRoutes = require('./routes/expenses')
 
 
 app.use(express.json())
@@ -18,6 +20,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use('/api/categories', categoriesRoutes);
+app.use('/api/tags', tagRoutes);
+app.use('/api/expenses', expenseRoutes);
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
   app.listen(port, () => {
