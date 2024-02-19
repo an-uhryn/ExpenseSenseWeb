@@ -1,6 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model } from 'mongoose'
 
 const Schema = mongoose.Schema
+
+export interface ICategory extends Document {
+  name: string
+  description: string
+  icon: string
+  color?: string
+}
 
 const categorySchema = new Schema({
   name: {
@@ -22,4 +29,4 @@ const categorySchema = new Schema({
   },
 }, { timestamps: true })
 
-module.exports = mongoose.model('Category', categorySchema)
+export const Category: Model<ICategory> = mongoose.model<ICategory>('Category', categorySchema)

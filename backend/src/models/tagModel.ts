@@ -1,6 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose, { Document, Model } from 'mongoose'
 
 const Schema = mongoose.Schema
+
+export interface ITag extends Document {
+  name: string
+  color?: string
+}
 
 const tagSchema = new Schema({
   name: {
@@ -14,4 +19,4 @@ const tagSchema = new Schema({
   },
 }, { timestamps: true })
 
-module.exports = mongoose.model('Tag', tagSchema)
+export const Tag: Model<ITag> = mongoose.model<ITag>('Tag', tagSchema)
