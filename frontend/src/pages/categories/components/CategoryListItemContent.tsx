@@ -1,7 +1,7 @@
-import {Avatar, ListItemAvatar, ListItemText, Typography} from '@mui/material'
+import { Avatar, ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import Icon from '@mui/material/Icon'
 import { ICategory } from '../../../common/interfaces'
-import {formatDate} from "../../../common/helpers";
+import { formatDate } from '../../../common/helpers'
 
 interface Props {
   category: ICategory

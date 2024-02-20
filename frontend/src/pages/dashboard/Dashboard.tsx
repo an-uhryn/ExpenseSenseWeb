@@ -1,5 +1,5 @@
-import PageContainer from "../../common/components/PageContainer";
-import PageTitle from "../../common/components/PageTitle";
+import PageContainer from '../../common/components/PageContainer'
+import PageTitle from '../../common/components/PageTitle'
 
 const Dashboard = () => {
   return (
