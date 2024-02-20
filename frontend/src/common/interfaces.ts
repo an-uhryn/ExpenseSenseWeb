@@ -4,12 +4,14 @@ export interface ICategory {
   color: string
   _id: string
   icon: string
+  createdAt: Date
 }
 
 export interface ITag {
   name: string
   color: string
   _id: string
+  createdAt: Date
 }
 
 export interface IAddTag {
@@ -39,6 +41,7 @@ export interface IExpense {
   categoryId: string
   tagIds: string[]
   _id: string
+  createdAt: Date
 }
 
 export interface IAddExpense {

@@ -2,11 +2,9 @@ import React from 'react'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import Navbar from './routing/components/Navbar'
-import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
+import { AppBar, Box, CssBaseline, Toolbar, Typography } from '@mui/material'
 import Router from './routing/router'
 import ExpenseSenseLogo from '../src/images/ExpenseSense.png'
-import { Image } from '@mui/icons-material'
 
 const App = () => {
   return (

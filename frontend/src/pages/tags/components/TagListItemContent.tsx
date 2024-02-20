@@ -1,6 +1,7 @@
-import { Avatar, ListItemAvatar, ListItemText } from '@mui/material'
+import { Avatar, ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import Icon from '@mui/material/Icon'
 import { ITag } from '../../../common/interfaces'
+import { formatDate } from '../../../common/helpers'
 
 interface Props {
   tag: ITag
@@ -15,6 +16,7 @@ const TagListItemContent = ({ tag }: Props) => {
         </Avatar>
       </ListItemAvatar>
       <ListItemText primary={tag.name} />
+      <Typography>{formatDate(tag.createdAt)}</Typography>
     </>
   )
 }
