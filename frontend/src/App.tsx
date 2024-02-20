@@ -1,38 +1,34 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './App.css'
-import { BrowserRouter } from "react-router-dom"
-import Navbar from "./routing/components/Navbar";
-import Router from "./routing/router";
-import {Divider} from "@mui/material";
+import { BrowserRouter } from 'react-router-dom'
+import Navbar from './routing/components/Navbar'
+import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
+import Router from './routing/router'
+import ExpenseSenseLogo from '../src/images/ExpenseSense.png'
+import { Image } from '@mui/icons-material'
 
 const App = () => {
-
-  // useEffect(() => {
-  //   fetch('http://localhost:4000/api/categories/', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({name: 'First', icon: 'smile'})
-  //   }).then((res) => {
-  //     console.log(res.json())
-  //   }).catch((error) => {
-  //     debugger
-  //     console.log(error)
-  //     console.log(error)
-  //   })
-  // },[])
-
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <Divider />
+    <BrowserRouter>
+      <CssBaseline />
+      <AppBar component="nav">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            <img src={ExpenseSenseLogo} width={36} height={36} alt="Logo" />
+          </Typography>
+          <Navbar />
+        </Toolbar>
+      </AppBar>
+      <Box component="main" style={{ padding: 100 }}>
         <Router />
-      </BrowserRouter>
-    </div>
-  );
+      </Box>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App

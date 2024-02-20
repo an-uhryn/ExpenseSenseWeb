@@ -9,24 +9,27 @@ export interface ICategory extends Document {
   color?: string
 }
 
-const categorySchema = new Schema({
-  name: {
-    type: String,
-    required: true
+const categorySchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '#000',
+    },
   },
-  description: {
-    type: String,
-    required: true
-  },
-  icon: {
-    type: String,
-    required: true,
-  },
-  color: {
-    type: String,
-    required: false,
-    default: '#000'
-  },
-}, { timestamps: true })
+  { timestamps: true },
+)
 
 export const Category: Model<ICategory> = mongoose.model<ICategory>('Category', categorySchema)
