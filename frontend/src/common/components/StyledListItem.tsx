@@ -16,7 +16,7 @@ const StyledListItem = ({ children, removeHandler }: Props) => {
         borderRadius: 4,
       }}
       secondaryAction={
-        <IconButton edge="end" aria-label="delete" onClick={removeHandler}>
+        <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
           <DeleteIcon />
         </IconButton>
       }
