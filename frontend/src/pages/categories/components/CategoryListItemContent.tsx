@@ -1,9 +1,9 @@
 import { Avatar, ListItemAvatar, ListItemText } from '@mui/material'
 import Icon from '@mui/material/Icon'
-import { Category } from '../../../common/interfaces'
+import { ICategory } from '../../../common/interfaces'
 
 interface Props {
-  category: Category
+  category: ICategory
 }
 
 const CategoryListItemContent = ({ category }: Props) => {

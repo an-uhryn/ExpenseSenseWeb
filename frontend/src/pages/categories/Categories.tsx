@@ -9,11 +9,11 @@ import PageContainer from '../../common/components/PageContainer'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
 import CategoryListItemContent from './components/CategoryListItemContent'
-import { Category, IAddCategories, IRemoveCategoryById } from '../../common/interfaces'
+import { ICategory, IAddCategories, IRemoveCategoryById } from '../../common/interfaces'
 import StyledButton from '../../common/components/StyledButton'
 
 const Categories = () => {
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories, setCategories] = useState<ICategory[]>([])
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [color, setColor] = useState('#000')

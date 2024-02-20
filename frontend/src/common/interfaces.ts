@@ -1,4 +1,4 @@
-export interface Category {
+export interface ICategory {
   name: string
   description: string
   color: string
@@ -6,7 +6,7 @@ export interface Category {
   icon: string
 }
 
-export interface Tag {
+export interface ITag {
   name: string
   color: string
   _id: string
@@ -30,4 +30,13 @@ export interface IAddCategories {
 
 export interface IRemoveCategoryById {
   categoryId: string
+}
+
+export interface IExpense {
+  name: string
+  description: string
+  value: string
+  categoryId: string
+  tagIds: []
+  _id: string
 }

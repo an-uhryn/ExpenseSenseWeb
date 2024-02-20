@@ -1,9 +1,9 @@
 import { Avatar, ListItemAvatar, ListItemText } from '@mui/material'
 import Icon from '@mui/material/Icon'
-import { Tag } from '../../../common/interfaces'
+import { ITag } from '../../../common/interfaces'
 
 interface Props {
-  tag: Tag
+  tag: ITag
 }
 
 const TagListItemContent = ({ tag }: Props) => {

@@ -7,12 +7,12 @@ import StyledColorPicker from '../../common/components/StyledColorPicker'
 import StyledButton from '../../common/components/StyledButton'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
-import { IAddTag, IRemoveTag, Tag } from '../../common/interfaces'
+import { IAddTag, IRemoveTag, ITag } from '../../common/interfaces'
 import TagListItemContent from './components/TagListItemContent'
 import { getTags, addTag, removeTagById } from '../../api'
 
 const Tags = () => {
-  const [tags, setTags] = useState<Tag[]>([])
+  const [tags, setTags] = useState<ITag[]>([])
   const [name, setName] = useState('')
   const [color, setColor] = useState('#000')
 
