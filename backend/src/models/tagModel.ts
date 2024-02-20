@@ -7,16 +7,19 @@ export interface ITag extends Document {
   color?: string
 }
 
-const tagSchema = new Schema({
-  name: {
-    type: String,
-    required: true
+const tagSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '#000',
+    },
   },
-  color: {
-    type: String,
-    required: false,
-    default: '#000'
-  },
-}, { timestamps: true })
+  { timestamps: true },
+)
 
 export const Tag: Model<ITag> = mongoose.model<ITag>('Tag', tagSchema)

@@ -1,5 +1,9 @@
 import express, { Router } from 'express'
-import { getAllCategories, createCategory, deleteCategoryById } from '../controllers/categoryController'
+import {
+  getAllCategories,
+  createCategory,
+  deleteCategoryById,
+} from '../controllers/categoryController'
 
 const router: Router = express.Router()
 

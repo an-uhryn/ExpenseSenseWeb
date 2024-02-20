@@ -10,27 +10,30 @@ export interface IExpense extends Document {
   tagIds?: []
 }
 
-const expenseSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const expenseSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: Number,
+      required: true,
+    },
+    categoryId: {
+      type: String,
+      required: true,
+    },
+    tagIds: {
+      type: Array,
+      required: false,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  value: {
-    type: Number,
-    required: true,
-  },
-  categoryId: {
-    type: String,
-    required: true,
-  },
-  tagIds: {
-    type: Array,
-    required: false,
-  }
-}, { timestamps: true })
+  { timestamps: true },
+)
 
 export const Expense: Model<IExpense> = mongoose.model<IExpense>('Expense', expenseSchema)
