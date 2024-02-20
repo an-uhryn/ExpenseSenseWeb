@@ -1,6 +1,7 @@
-import { Avatar, ListItemAvatar, ListItemText } from '@mui/material'
+import { Avatar, ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import Icon from '@mui/material/Icon'
 import { IExpense, ICategory } from '../../../common/interfaces'
+import {formatDate} from "../../../common/helpers";
 
 interface Props {
   expense: IExpense
@@ -23,6 +24,7 @@ const ExpenseListItemContent = ({ expense, expenseCategory }: Props) => {
         </Avatar>
       </ListItemAvatar>
       <ListItemText primary={expense.name} secondary={expense.description} />
+      <Typography>{formatDate(expense.createdAt)}</Typography>
     </>
   )
 }
