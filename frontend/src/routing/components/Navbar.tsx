@@ -1,5 +1,4 @@
-import { NavLink } from 'react-router-dom'
-import { Button, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import NavbarItem from './NavbarItem'
 
 const Navbar = () => {
