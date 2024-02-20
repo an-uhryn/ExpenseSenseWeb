@@ -37,6 +37,18 @@ export interface IExpense {
   description: string
   value: string
   categoryId: string
-  tagIds: []
+  tagIds: string[]
   _id: string
+}
+
+export interface IAddExpense {
+  name: string
+  description: string
+  value: string
+  categoryId: string
+  tagIds: string[]
+}
+
+export interface IRemoveExpense {
+  expenseId: string
 }
