@@ -15,7 +15,7 @@ const ExpenseListItemContent = ({ expense, expenseCategory }: Props) => {
         <Avatar
           style={{
             background: 'transparent',
-            border: '1px solid #555',
+            border: `1px solid ${expenseCategory.color}`,
           }}
         >
           <Icon style={{ color: expenseCategory?.color || '#555' }}>

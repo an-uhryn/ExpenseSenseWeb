@@ -119,7 +119,7 @@ const Expenses = () => {
       <StyledList>
         {expenses.map((expense: IExpense) => {
           let expenseCategory = categories.find((category: ICategory) => {
-            return expense.categoryId == category._id
+            return expense.categoryId === category._id
           })
           if (expenseCategory) {
             return (

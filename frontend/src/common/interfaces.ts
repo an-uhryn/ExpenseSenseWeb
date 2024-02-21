@@ -37,7 +37,7 @@ export interface IRemoveCategoryById {
 export interface IExpense {
   name: string
   description: string
-  value: string
+  value: number
   categoryId: string
   tagIds: string[]
   _id: string

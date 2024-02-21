@@ -14,6 +14,7 @@ const StyledListItem = ({ children, removeHandler }: Props) => {
         boxShadow: '1px 1px 5px #ddd',
         marginBottom: 10,
         borderRadius: 4,
+        backgroundColor: '#fff',
       }}
       secondaryAction={
         <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
