@@ -10,7 +10,7 @@ interface Props {
 
 const StyledDropdown = ({ data, value, label, onChange }: Props) => {
   return (
-    <Box style={{ maxWidth: 150, display: 'inline-flex' }}>
+    <Box style={{ minWidth: 200, display: 'inline-flex' }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select

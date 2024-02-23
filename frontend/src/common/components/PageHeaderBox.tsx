@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import { ReactNode } from 'react'
 
 interface Props {
@@ -7,14 +7,17 @@ interface Props {
 
 const PageHeaderBox = ({ children }: Props) => {
   return (
+    <Paper style={{padding: 20, marginBottom: 20}}>
     <Box
       component="form"
       noValidate
       autoComplete="off"
-      style={{ display: 'flex', columnGap: 30, marginBottom: 30 }}
+      style={{ display: 'flex', columnGap: 30 }}
     >
-      {children}
+
+        {children}
     </Box>
+    </Paper>
   )
 }
 
