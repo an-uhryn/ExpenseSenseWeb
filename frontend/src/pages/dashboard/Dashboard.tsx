@@ -11,7 +11,7 @@ import {
   ITag,
 } from '../../common/interfaces'
 import { getCategories, getExpenses, getTags, removeExpenseById } from '../../api'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, Paper } from '@mui/material'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
 import {
@@ -77,14 +77,17 @@ const Dashboard = () => {
   return (
     <PageContainer>
       <PageTitle>Dashboard</PageTitle>
+      <Paper style={{ marginBottom: 50, padding: '30px 0' }}>
+        <Grid container>
+          <Grid item md={6}>
+            <StyledPieChart chartData={categoriesChartData} />
+          </Grid>
+          <Grid item md={6}>
+            <StyledPieChart chartData={tagsChartData} />
+          </Grid>
+        </Grid>
+      </Paper>
       <Grid container>
-        <Grid item md={6} style={{ marginBottom: 50 }}>
-          <StyledPieChart chartData={categoriesChartData} />
-        </Grid>
-        <Grid item md={6} style={{ marginBottom: 50 }}>
-          <StyledPieChart chartData={tagsChartData} />
-        </Grid>
-
         <Grid item xs={12}>
           {Object.entries(sortedExpenses).map(([key, value]) => {
             return (
