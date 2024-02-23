@@ -7,16 +7,15 @@ interface Props {
 
 const PageHeaderBox = ({ children }: Props) => {
   return (
-    <Paper style={{padding: 20, marginBottom: 20}}>
-    <Box
-      component="form"
-      noValidate
-      autoComplete="off"
-      style={{ display: 'flex', columnGap: 30 }}
-    >
-
+    <Paper style={{ padding: 20, marginBottom: 20 }}>
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        style={{ display: 'flex', columnGap: 30 }}
+      >
         {children}
-    </Box>
+      </Box>
     </Paper>
   )
 }
