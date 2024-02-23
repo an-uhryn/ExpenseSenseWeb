@@ -10,6 +10,8 @@ import ExpenseListItemContent from './components/ExpenseListItemContent'
 import { addExpense, getCategories, getExpenses, getTags, removeExpenseById } from '../../api'
 import StyledDropdown from '../../common/components/StyledDropdown'
 import StyledButton from '../../common/components/StyledButton'
+import StyledMultiselectDropdown from '../../common/components/StyledMultiselectDropdown'
+import { SelectChangeEvent } from '@mui/material'
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState<IExpense[]>([])
@@ -19,7 +21,7 @@ const Expenses = () => {
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('0')
   const [category, setCategory] = useState('')
-  const [tag, setTag] = useState('')
+  const [tag, setTag] = useState<string[]>([])
 
   const fetchExpenses = () => {
     getExpenses()
@@ -94,11 +96,20 @@ const Expenses = () => {
           onChange={(e) => setCategory(e.target.value)}
           data={categories}
         />
-        <StyledDropdown
-          value={tag}
+        <StyledMultiselectDropdown
           label="Tag"
-          onChange={(e) => setTag(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value
+            setTag((prevTags: string[]) => {
+              if (prevTags.includes(value)) {
+                return prevTags.filter((tag: string) => tag !== value)
+              } else {
+                return [...prevTags, value]
+              }
+            })
+          }}
           data={tags}
+          value={tag}
         />
 
         <StyledButton
@@ -108,7 +119,7 @@ const Expenses = () => {
               description,
               value,
               categoryId: category,
-              tagIds: [tag],
+              tagIds: tag,
             })
           }
         >
