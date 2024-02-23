@@ -1,4 +1,4 @@
-import { IconButton, ListItem } from '@mui/material'
+import { IconButton, ListItem, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { ReactNode } from 'react'
 
@@ -17,9 +17,11 @@ const StyledListItem = ({ children, removeHandler }: Props) => {
         backgroundColor: '#fff',
       }}
       secondaryAction={
-        <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
-          <DeleteIcon />
-        </IconButton>
+        <Tooltip title="Doubleclick to delete record">
+          <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
       }
     >
       {children}

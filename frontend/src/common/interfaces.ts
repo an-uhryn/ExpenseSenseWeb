@@ -55,3 +55,17 @@ export interface IAddExpense {
 export interface IRemoveExpense {
   expenseId: string
 }
+
+export interface IExpensesByCategories {
+  [category: string]: IExpense[]
+}
+
+export interface IExpensesByTags {
+  [tag: string]: IExpense[]
+}
+
+export interface IChartDatasetItem {
+  id: number
+  value: number
+  label: string
+}
