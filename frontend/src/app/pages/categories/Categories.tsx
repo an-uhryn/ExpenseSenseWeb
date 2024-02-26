@@ -4,35 +4,30 @@ import PageTitle from '../../common/components/PageTitle'
 import PageHeaderBox from '../../common/components/PageHeaderBox'
 import StyledTextField from '../../common/components/StyledTextField'
 import StyledColorPicker from '../../common/components/StyledColorPicker'
-import { addCategory, getCategories, removeCategoryById } from '../../api'
+import { addCategory, removeCategoryById } from '../../api'
 import PageContainer from '../../common/components/PageContainer'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
 import CategoryListItemContent from './components/CategoryListItemContent'
-import { ICategory, IAddCategories, IRemoveCategoryById } from '../../common/interfaces'
+import { IAddCategories, IRemoveCategoryById } from '../../common/interfaces'
 import StyledButton from '../../common/components/StyledButton'
+import { fetchCategories } from '../../redux/categories/categoriesSlice'
+import { useSelector } from 'react-redux'
+import { selectAllCategories } from '../../redux/categories/selectors'
+import { useAppDispatch } from '../../hooks'
 
 const Categories = () => {
-  const [categories, setCategories] = useState<ICategory[]>([])
+  const dispatch = useAppDispatch()
+  const categories = useSelector(selectAllCategories)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [color, setColor] = useState('#000')
   const [icon, setIcon] = useState('fastfood')
 
-  const fetchCategories = () => {
-    getCategories()
-      .then((res) => {
-        setCategories(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   const addNewCategory = ({ name, description, color, icon }: IAddCategories) => {
     addCategory({ name, description, color, icon })
       .then(() => {
-        fetchCategories()
+        dispatch(fetchCategories())
       })
       .catch((error) => {
         console.log(error)
@@ -42,7 +37,7 @@ const Categories = () => {
   const removeCategory = ({ categoryId }: IRemoveCategoryById) => {
     removeCategoryById({ categoryId })
       .then(() => {
-        fetchCategories()
+        dispatch(fetchCategories())
       })
       .catch((error) => {
         console.log(error)
@@ -50,7 +45,7 @@ const Categories = () => {
   }
 
   useEffect(() => {
-    fetchCategories()
+    dispatch(fetchCategories())
   }, [])
 
   return (

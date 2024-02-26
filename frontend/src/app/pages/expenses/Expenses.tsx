@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { IAddExpense, ICategory, IExpense, IRemoveExpense, ITag } from '../../common/interfaces'
+import { IAddExpense, ICategory, IExpense, IRemoveExpense } from '../../common/interfaces'
 import PageContainer from '../../common/components/PageContainer'
 import PageTitle from '../../common/components/PageTitle'
 import PageHeaderBox from '../../common/components/PageHeaderBox'
@@ -7,55 +7,33 @@ import StyledTextField from '../../common/components/StyledTextField'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
 import ExpenseListItemContent from './components/ExpenseListItemContent'
-import { addExpense, getCategories, getExpenses, getTags, removeExpenseById } from '../../api'
+import { addExpense, removeExpenseById } from '../../api'
 import StyledDropdown from '../../common/components/StyledDropdown'
 import StyledButton from '../../common/components/StyledButton'
+import { useAppDispatch } from '../../hooks'
+import { useSelector } from 'react-redux'
+import { selectAllCategories } from '../../redux/categories/selectors'
+import { selectAllExpenses } from '../../redux/expenses/selectors'
+import { fetchExpenses } from '../../redux/expenses/expensesSlice'
+import { fetchCategories } from '../../redux/categories/categoriesSlice'
+import { fetchTags } from '../../redux/tags/tagsSlice'
+import { selectAllTags } from '../../redux/tags/selectors'
 
 const Expenses = () => {
-  const [expenses, setExpenses] = useState<IExpense[]>([])
-  const [categories, setCategories] = useState<ICategory[]>([])
-  const [tags, setTags] = useState<ITag[]>([])
+  const dispatch = useAppDispatch()
+  const expenses = useSelector(selectAllExpenses)
+  const categories = useSelector(selectAllCategories)
+  const tags = useSelector(selectAllTags)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('0')
   const [category, setCategory] = useState('')
   const [tag, setTag] = useState('')
 
-  const fetchExpenses = () => {
-    getExpenses()
-      .then((res) => {
-        setExpenses(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-  const fetchCategories = () => {
-    getCategories()
-      .then((res) => {
-        setCategories(res)
-        setCategory(res[0]._id)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  const fetchTags = () => {
-    getTags()
-      .then((res) => {
-        setTags(res)
-        setTag(res[0]._id)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   const addNewExpense = ({ name, description, value, categoryId, tagIds }: IAddExpense) => {
     addExpense({ name, description, value, categoryId, tagIds })
       .then(() => {
-        fetchExpenses()
+        dispatch(fetchExpenses())
       })
       .catch((error) => {
         console.log(error)
@@ -65,7 +43,7 @@ const Expenses = () => {
   const removeExpense = ({ expenseId }: IRemoveExpense) => {
     removeExpenseById({ expenseId })
       .then(() => {
-        fetchExpenses()
+        dispatch(fetchExpenses())
       })
       .catch((error) => {
         console.log(error)
@@ -73,9 +51,9 @@ const Expenses = () => {
   }
 
   useEffect(() => {
-    fetchExpenses()
-    fetchCategories()
-    fetchTags()
+    dispatch(fetchExpenses())
+    dispatch(fetchCategories())
+    dispatch(fetchTags())
   }, [])
 
   return (

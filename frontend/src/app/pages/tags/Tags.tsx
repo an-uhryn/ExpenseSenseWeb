@@ -7,32 +7,27 @@ import StyledColorPicker from '../../common/components/StyledColorPicker'
 import StyledButton from '../../common/components/StyledButton'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
-import { IAddTag, IRemoveTag, ITag } from '../../common/interfaces'
+import { IAddTag, IRemoveTag } from '../../common/interfaces'
 import TagListItemContent from './components/TagListItemContent'
-import { getTags, addTag, removeTagById } from '../../api'
+import { addTag, removeTagById } from '../../api'
+import { useAppDispatch } from '../../hooks'
+import { useSelector } from 'react-redux'
+import { selectAllTags } from '../../redux/tags/selectors'
+import { fetchTags } from '../../redux/tags/tagsSlice'
 
 const Tags = () => {
-  const [tags, setTags] = useState<ITag[]>([])
+  const dispatch = useAppDispatch()
+  const tags = useSelector(selectAllTags)
   const [name, setName] = useState('')
   const [color, setColor] = useState('#000')
-
-  const fetchTags = () => {
-    getTags()
-      .then((res) => {
-        setTags(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
 
   const addNewTag = ({ name, color }: IAddTag) => {
     addTag({ name, color })
       .then(() => {
-        fetchTags()
+        dispatch(fetchTags())
       })
       .catch((error) => {
-        fetchTags()
+        dispatch(fetchTags())
         console.log(error)
       })
   }
@@ -40,7 +35,7 @@ const Tags = () => {
   const removeTag = ({ tagId }: IRemoveTag) => {
     removeTagById({ tagId })
       .then(() => {
-        fetchTags()
+        dispatch(fetchTags())
       })
       .catch((error) => {
         console.log(error)
@@ -48,7 +43,7 @@ const Tags = () => {
   }
 
   useEffect(() => {
-    fetchTags()
+    dispatch(fetchTags())
   }, [])
 
   return (
