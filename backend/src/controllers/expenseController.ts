@@ -39,3 +39,17 @@ export const deleteExpenseById = async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+export const updateExpenseById = async (req: Request, res: Response) => {
+  const { id } = req.params
+  try {
+    const expense = await Expense.findByIdAndUpdate({ id }, { ...req.body })
+    if (!expense) {
+      res.status(404).json({ error: 'Expense not found' })
+      return
+    }
+    res.status(201).json(expense)
+  } catch (error: any) {
+    res.status(500).json({ error: error.message })
+  }
+}
