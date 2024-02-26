@@ -18,8 +18,7 @@ import {
   separateExpensesByTags,
 } from '../../common/helpers'
 import StyledPieChart from '../../common/components/StyledPieChart'
-import { useAppDispatch } from '../../hooks'
-import { useSelector } from 'react-redux'
+import {useAppDispatch, useAppSelector} from '../../redux/hooks'
 import { selectAllCategories } from '../../redux/categories/selectors'
 import { selectAllTags } from '../../redux/tags/selectors'
 import { selectAllExpenses } from '../../redux/expenses/selectors'
@@ -29,9 +28,9 @@ import { fetchExpenses } from '../../redux/expenses/expensesSlice'
 
 const Dashboard = () => {
   const dispatch = useAppDispatch()
-  const categories = useSelector(selectAllCategories)
-  const tags = useSelector(selectAllTags)
-  const expenses = useSelector(selectAllExpenses)
+  const categories = useAppSelector(selectAllCategories)
+  const tags = useAppSelector(selectAllTags)
+  const expenses = useAppSelector(selectAllExpenses)
   const [categoriesChartData, setChartData] = useState<IChartDatasetItem[]>([])
   const [tagsChartData, setTagsChartData] = useState<IChartDatasetItem[]>([])
   const [sortedExpenses, setSortedExpenses] = useState<IExpensesByCategories>({})

@@ -10,14 +10,13 @@ import StyledListItem from '../../common/components/StyledListItem'
 import { IAddTag, IRemoveTag } from '../../common/interfaces'
 import TagListItemContent from './components/TagListItemContent'
 import { addTag, removeTagById } from '../../api'
-import { useAppDispatch } from '../../hooks'
-import { useSelector } from 'react-redux'
+import {useAppDispatch, useAppSelector} from '../../redux/hooks'
 import { selectAllTags } from '../../redux/tags/selectors'
 import { fetchTags } from '../../redux/tags/tagsSlice'
 
 const Tags = () => {
   const dispatch = useAppDispatch()
-  const tags = useSelector(selectAllTags)
+  const tags = useAppSelector(selectAllTags)
   const [name, setName] = useState('')
   const [color, setColor] = useState('#000')
 

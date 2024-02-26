@@ -10,8 +10,7 @@ import ExpenseListItemContent from './components/ExpenseListItemContent'
 import { addExpense, removeExpenseById } from '../../api'
 import StyledDropdown from '../../common/components/StyledDropdown'
 import StyledButton from '../../common/components/StyledButton'
-import { useAppDispatch } from '../../hooks'
-import { useSelector } from 'react-redux'
+import {useAppDispatch, useAppSelector} from '../../redux/hooks'
 import { selectAllCategories } from '../../redux/categories/selectors'
 import { selectAllExpenses } from '../../redux/expenses/selectors'
 import { fetchExpenses } from '../../redux/expenses/expensesSlice'
@@ -21,9 +20,9 @@ import { selectAllTags } from '../../redux/tags/selectors'
 
 const Expenses = () => {
   const dispatch = useAppDispatch()
-  const expenses = useSelector(selectAllExpenses)
-  const categories = useSelector(selectAllCategories)
-  const tags = useSelector(selectAllTags)
+  const expenses = useAppSelector(selectAllExpenses)
+  const categories = useAppSelector(selectAllCategories)
+  const tags = useAppSelector(selectAllTags)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('0')

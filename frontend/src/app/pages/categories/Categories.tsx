@@ -12,13 +12,12 @@ import CategoryListItemContent from './components/CategoryListItemContent'
 import { IAddCategories, IRemoveCategoryById } from '../../common/interfaces'
 import StyledButton from '../../common/components/StyledButton'
 import { fetchCategories } from '../../redux/categories/categoriesSlice'
-import { useSelector } from 'react-redux'
 import { selectAllCategories } from '../../redux/categories/selectors'
-import { useAppDispatch } from '../../hooks'
+import {useAppDispatch, useAppSelector} from '../../redux/hooks'
 
 const Categories = () => {
   const dispatch = useAppDispatch()
-  const categories = useSelector(selectAllCategories)
+  const categories = useAppSelector(selectAllCategories)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [color, setColor] = useState('#000')
