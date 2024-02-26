@@ -2,15 +2,13 @@ import PageContainer from '../../common/components/PageContainer'
 import PageTitle from '../../common/components/PageTitle'
 import { useEffect, useState } from 'react'
 import {
-  ICategory,
   IChartDatasetItem,
   IExpense,
   IExpensesByCategories,
   IExpensesByTags,
   IRemoveExpense,
-  ITag,
 } from '../../common/interfaces'
-import { getCategories, getExpenses, getTags, removeExpenseById } from '../../api'
+import { removeExpenseById } from '../../api'
 import { Grid, Typography, Paper } from '@mui/material'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
@@ -20,23 +18,28 @@ import {
   separateExpensesByTags,
 } from '../../common/helpers'
 import StyledPieChart from '../../common/components/StyledPieChart'
+import { useAppDispatch } from '../../hooks'
+import { useSelector } from 'react-redux'
+import { selectAllCategories } from '../../redux/categories/selectors'
+import { selectAllTags } from '../../redux/tags/selectors'
+import { selectAllExpenses } from '../../redux/expenses/selectors'
+import { fetchCategories } from '../../redux/categories/categoriesSlice'
+import { fetchTags } from '../../redux/tags/tagsSlice'
+import { fetchExpenses } from '../../redux/expenses/expensesSlice'
 
 const Dashboard = () => {
-  const [expenses, setExpenses] = useState<IExpense[]>([])
-  const [categories, setCategories] = useState<ICategory[]>([])
-  const [tags, setTags] = useState<ITag[]>([])
+  const dispatch = useAppDispatch()
+  const categories = useSelector(selectAllCategories)
+  const tags = useSelector(selectAllTags)
+  const expenses = useSelector(selectAllExpenses)
   const [categoriesChartData, setChartData] = useState<IChartDatasetItem[]>([])
   const [tagsChartData, setTagsChartData] = useState<IChartDatasetItem[]>([])
   const [sortedExpenses, setSortedExpenses] = useState<IExpensesByCategories>({})
 
   const fetchDashboardData = () => {
-    Promise.all([getExpenses(), getCategories(), getTags()]).then((values) => {
-      const [e, c, t] = values
-
-      setExpenses(e)
-      setCategories(c)
-      setTags(t)
-    })
+    dispatch(fetchCategories())
+    dispatch(fetchTags())
+    dispatch(fetchExpenses())
   }
 
   const combineDataset = () => {
@@ -45,7 +48,6 @@ const Dashboard = () => {
       categories,
     )
     const dataset: IChartDatasetItem[] = generateDatasetForPieChart(expensesSortedByCategory)
-
     const expensesSortedByTags: IExpensesByTags = separateExpensesByTags(expenses, tags)
     const datasetForTags: IChartDatasetItem[] = generateDatasetForPieChart(expensesSortedByTags)
 
@@ -65,14 +67,14 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    fetchDashboardData()
-  }, [])
-
-  useEffect(() => {
     if (expenses.length && categories.length && tags.length) {
       combineDataset()
     }
   }, [expenses, categories, tags])
+
+  useEffect(() => {
+    fetchDashboardData()
+  }, [])
 
   return (
     <PageContainer>

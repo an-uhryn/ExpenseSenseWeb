@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import Navbar from './routing/components/Navbar'
 import { AppBar, Box, CssBaseline, Toolbar, Typography } from '@mui/material'
 import Router from './routing/router'
-import ExpenseSenseLogo from '../src/images/ExpenseSense.png'
+import ExpenseSenseLogo from './images/ExpenseSense.png'
 
 const App = () => {
   return (
