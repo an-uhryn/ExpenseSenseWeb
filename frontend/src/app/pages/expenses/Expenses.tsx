@@ -7,7 +7,7 @@ import StyledTextField from '../../common/components/StyledTextField'
 import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
 import ExpenseListItemContent from './components/ExpenseListItemContent'
-import { addExpense, removeExpenseById } from '../../api'
+import { addExpense, editExpenseById, removeExpenseById } from '../../api'
 import StyledDropdown from '../../common/components/StyledDropdown'
 import StyledButton from '../../common/components/StyledButton'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
@@ -17,6 +17,8 @@ import { fetchExpenses } from '../../redux/expenses/expensesSlice'
 import { fetchCategories } from '../../redux/categories/categoriesSlice'
 import { fetchTags } from '../../redux/tags/tagsSlice'
 import { selectAllTags } from '../../redux/tags/selectors'
+import ModalWindow from '../../common/components/ModalWindow'
+import { setModalState } from '../../redux/modal/modalSlice'
 
 const Expenses = () => {
   const dispatch = useAppDispatch()
@@ -26,8 +28,9 @@ const Expenses = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('0')
-  const [category, setCategory] = useState('')
+  const [categoryId, setCategory] = useState('')
   const [tag, setTag] = useState('')
+  const [expenseToEdit, setExpenseToEdit] = useState<string>('')
 
   const addNewExpense = ({ name, description, value, categoryId, tagIds }: IAddExpense) => {
     addExpense({ name, description, value, categoryId, tagIds })
@@ -43,6 +46,22 @@ const Expenses = () => {
     removeExpenseById({ expenseId })
       .then(() => {
         dispatch(fetchExpenses())
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  const openEditCategoryModal = ({ id }: { id: string }) => {
+    setExpenseToEdit(id)
+    dispatch(setModalState(true))
+  }
+
+  const editExpense = () => {
+    editExpenseById({ name, description, value, categoryId, tagIds: [tag], _id: expenseToEdit })
+      .then(() => {
+        dispatch(fetchExpenses())
+        dispatch(setModalState(false))
       })
       .catch((error) => {
         console.log(error)
@@ -66,7 +85,7 @@ const Expenses = () => {
         />
         <StyledTextField label="Value" onChange={(event) => setValue(event.target.value)} />
         <StyledDropdown
-          value={category}
+          value={categoryId}
           label="Category"
           onChange={(e) => setCategory(e.target.value)}
           data={categories}
@@ -84,7 +103,7 @@ const Expenses = () => {
               name,
               description,
               value,
-              categoryId: category,
+              categoryId,
               tagIds: [tag],
             })
           }
@@ -102,7 +121,7 @@ const Expenses = () => {
             return (
               <StyledListItem
                 key={expense._id}
-                editHandler={() => {}}
+                editHandler={() => openEditCategoryModal({ id: expense._id })}
                 removeHandler={() => removeExpense({ expenseId: expense._id })}
               >
                 <ExpenseListItemContent expenseCategory={expenseCategory} expense={expense} />
@@ -111,6 +130,30 @@ const Expenses = () => {
           }
         })}
       </StyledList>
+      <ModalWindow>
+        <PageHeaderBox>
+          <StyledTextField label="Name" onChange={(event) => setName(event.target.value)} />
+          <StyledTextField
+            label="Description"
+            onChange={(event) => setDescription(event.target.value)}
+          />
+          <StyledTextField label="Value" onChange={(event) => setValue(event.target.value)} />
+          <StyledDropdown
+            value={categoryId}
+            label="Category"
+            onChange={(e) => setCategory(e.target.value)}
+            data={categories}
+          />
+          <StyledDropdown
+            value={tag}
+            label="Tag"
+            onChange={(e) => setTag(e.target.value)}
+            data={tags}
+          />
+
+          <StyledButton onClick={() => editExpense()}>Update expense</StyledButton>
+        </PageHeaderBox>
+      </ModalWindow>
     </PageContainer>
   )
 }
