@@ -103,7 +103,9 @@ const Dashboard = () => {
                           editHandler={() => {}}
                           removeHandler={() => removeExpense({ expenseId: expense._id })}
                         >
-                          <Typography style={{width: '100%'}}>{expense.name} - {expense.value}</Typography>
+                          <Typography style={{ width: '100%' }}>
+                            {expense.name} - {expense.value}
+                          </Typography>
                         </StyledListItem>
                       )
                     })}

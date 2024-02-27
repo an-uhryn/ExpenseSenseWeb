@@ -23,7 +23,7 @@ const ExpenseListItemContent = ({ expense, expenseCategory }: Props) => {
           </Icon>
         </Avatar>
       </ListItemAvatar>
-      <Typography variant="h6" color='#d96621'>{`${expense.value} CZK`}</Typography>
+      <Typography variant="h6" color="#d96621">{`${expense.value} CZK`}</Typography>
       <ListItemText primary={expense.name} secondary={expense.description} />
       <Typography>{formatDate(expense.createdAt)}</Typography>
     </>
