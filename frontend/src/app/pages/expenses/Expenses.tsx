@@ -10,7 +10,7 @@ import ExpenseListItemContent from './components/ExpenseListItemContent'
 import { addExpense, removeExpenseById } from '../../api'
 import StyledDropdown from '../../common/components/StyledDropdown'
 import StyledButton from '../../common/components/StyledButton'
-import {useAppDispatch, useAppSelector} from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectAllCategories } from '../../redux/categories/selectors'
 import { selectAllExpenses } from '../../redux/expenses/selectors'
 import { fetchExpenses } from '../../redux/expenses/expensesSlice'
@@ -102,6 +102,7 @@ const Expenses = () => {
             return (
               <StyledListItem
                 key={expense._id}
+                editHandler={() => {}}
                 removeHandler={() => removeExpense({ expenseId: expense._id })}
               >
                 <ExpenseListItemContent expenseCategory={expenseCategory} expense={expense} />

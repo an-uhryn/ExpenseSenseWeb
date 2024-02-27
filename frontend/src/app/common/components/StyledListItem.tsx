@@ -1,13 +1,15 @@
-import { IconButton, ListItem, Tooltip } from '@mui/material'
+import { IconButton, ListItem } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
+  editHandler: () => void
   removeHandler: () => void
 }
 
-const StyledListItem = ({ children, removeHandler }: Props) => {
+const StyledListItem = ({ children, editHandler, removeHandler }: Props) => {
   return (
     <ListItem
       style={{
@@ -15,16 +17,16 @@ const StyledListItem = ({ children, removeHandler }: Props) => {
         marginBottom: 10,
         borderRadius: 4,
         backgroundColor: '#fff',
+        columnGap: 15,
       }}
-      secondaryAction={
-        <Tooltip title="Doubleclick to delete record">
-          <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      }
     >
       {children}
+      <IconButton edge="end" aria-label="delete" onClick={editHandler}>
+        <EditIcon />
+      </IconButton>
+      <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
+        <DeleteIcon />
+      </IconButton>
     </ListItem>
   )
 }

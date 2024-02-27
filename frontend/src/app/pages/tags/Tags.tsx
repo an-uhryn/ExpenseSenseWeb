@@ -10,7 +10,7 @@ import StyledListItem from '../../common/components/StyledListItem'
 import { IAddTag, IRemoveTag } from '../../common/interfaces'
 import TagListItemContent from './components/TagListItemContent'
 import { addTag, removeTagById } from '../../api'
-import {useAppDispatch, useAppSelector} from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectAllTags } from '../../redux/tags/selectors'
 import { fetchTags } from '../../redux/tags/tagsSlice'
 
@@ -62,7 +62,11 @@ const Tags = () => {
       <StyledList>
         {tags.map((tag) => {
           return (
-            <StyledListItem key={tag._id} removeHandler={() => removeTag({ tagId: tag._id })}>
+            <StyledListItem
+              key={tag._id}
+              editHandler={() => {}}
+              removeHandler={() => removeTag({ tagId: tag._id })}
+            >
               <TagListItemContent tag={tag} />
             </StyledListItem>
           )

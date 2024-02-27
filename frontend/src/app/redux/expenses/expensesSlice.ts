@@ -20,17 +20,9 @@ export const expensesSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(
-        fetchExpenses.pending,
-        (
-          state: {
-            list: IExpense[]
-            status: string
-          },
-        ) => {
-          state.status = 'loading'
-        },
-      )
+      .addCase(fetchExpenses.pending, (state: { list: IExpense[]; status: string }) => {
+        state.status = 'loading'
+      })
       .addCase(
         fetchExpenses.fulfilled,
         (

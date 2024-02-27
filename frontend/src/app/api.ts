@@ -2,6 +2,7 @@ import {
   IAddCategories,
   IAddExpense,
   IAddTag,
+  IEditCategory,
   IRemoveCategoryById,
   IRemoveExpense,
   IRemoveTag,
@@ -33,6 +34,18 @@ export const removeCategoryById = async ({ categoryId }: IRemoveCategoryById) =>
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+  })
+}
+
+export const editCategoryById = async ({ name, description, color, icon, _id }: IEditCategory) => {
+  console.log(`${baseApiUrl}/categories/${_id}`)
+  return await fetch(`${baseApiUrl}/categories/${_id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, description, color, icon }),
   })
 }
 

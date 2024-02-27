@@ -30,6 +30,14 @@ export interface IAddCategories {
   icon: string
 }
 
+export interface IEditCategory {
+  name: string
+  description: string
+  color: string
+  icon: string
+  _id: string
+}
+
 export interface IRemoveCategoryById {
   categoryId: string
 }
