@@ -9,16 +9,19 @@ import StyledList from '../../common/components/StyledList'
 import StyledListItem from '../../common/components/StyledListItem'
 import { IAddTag, IRemoveTag } from '../../common/interfaces'
 import TagListItemContent from './components/TagListItemContent'
-import { addTag, removeTagById } from '../../api'
+import { addTag, editTagById, removeTagById } from '../../api'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectAllTags } from '../../redux/tags/selectors'
 import { fetchTags } from '../../redux/tags/tagsSlice'
+import { setModalState } from '../../redux/modal/modalSlice'
+import ModalWindow from '../../common/components/ModalWindow'
 
 const Tags = () => {
   const dispatch = useAppDispatch()
   const tags = useAppSelector(selectAllTags)
   const [name, setName] = useState('')
   const [color, setColor] = useState('#000')
+  const [tagToEdit, setTagToEdit] = useState<string>('')
 
   const addNewTag = ({ name, color }: IAddTag) => {
     addTag({ name, color })
@@ -35,6 +38,22 @@ const Tags = () => {
     removeTagById({ tagId })
       .then(() => {
         dispatch(fetchTags())
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  const openEditTagModal = ({ id }: { id: string }) => {
+    setTagToEdit(id)
+    dispatch(setModalState(true))
+  }
+
+  const editTag = () => {
+    editTagById({ name, color, _id: tagToEdit })
+      .then(() => {
+        dispatch(fetchTags())
+        dispatch(setModalState(false))
       })
       .catch((error) => {
         console.log(error)
@@ -64,7 +83,7 @@ const Tags = () => {
           return (
             <StyledListItem
               key={tag._id}
-              editHandler={() => {}}
+              editHandler={() => openEditTagModal({ id: tag._id })}
               removeHandler={() => removeTag({ tagId: tag._id })}
             >
               <TagListItemContent tag={tag} />
@@ -72,6 +91,18 @@ const Tags = () => {
           )
         })}
       </StyledList>
+      <ModalWindow>
+        <PageHeaderBox>
+          <StyledTextField
+            label="Name"
+            onChange={(event) => {
+              setName(event.target.value)
+            }}
+          />
+          <StyledColorPicker color={color} onChange={setColor} />
+          <StyledButton onClick={() => editTag()}>Update tag</StyledButton>
+        </PageHeaderBox>
+      </ModalWindow>
     </PageContainer>
   )
 }

@@ -23,6 +23,12 @@ export interface IRemoveTag {
   tagId: string
 }
 
+export interface IEditTag {
+  name: string
+  color: string
+  _id: string
+}
+
 export interface IAddCategories {
   name: string
   description: string
