@@ -60,6 +60,15 @@ export interface IAddExpense {
   tagIds: string[]
 }
 
+export interface IEditExpense {
+  name: string
+  description: string
+  value: string
+  categoryId: string
+  tagIds: string[]
+  _id: string
+}
+
 export interface IRemoveExpense {
   expenseId: string
 }

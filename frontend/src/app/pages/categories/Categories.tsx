@@ -55,6 +55,7 @@ const Categories = () => {
     editCategoryById({ name, description, color, icon, _id: categoryToEdit })
       .then(() => {
         dispatch(fetchCategories())
+        dispatch(setModalState(false))
       })
       .catch((error) => {
         console.log(error)
