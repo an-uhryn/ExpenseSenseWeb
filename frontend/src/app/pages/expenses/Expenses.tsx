@@ -52,7 +52,7 @@ const Expenses = () => {
       })
   }
 
-  const openEditCategoryModal = ({ id }: { id: string }) => {
+  const openEditExpenseModal = ({ id }: { id: string }) => {
     setExpenseToEdit(id)
     dispatch(setModalState(true))
   }
@@ -121,7 +121,7 @@ const Expenses = () => {
             return (
               <StyledListItem
                 key={expense._id}
-                editHandler={() => openEditCategoryModal({ id: expense._id })}
+                editHandler={() => openEditExpenseModal({ id: expense._id })}
                 removeHandler={() => removeExpense({ expenseId: expense._id })}
               >
                 <ExpenseListItemContent expenseCategory={expenseCategory} expense={expense} />

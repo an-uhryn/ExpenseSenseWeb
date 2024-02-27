@@ -4,6 +4,7 @@ import {
   IAddTag,
   IEditCategory,
   IEditExpense,
+  IEditTag,
   IRemoveCategoryById,
   IRemoveExpense,
   IRemoveTag,
@@ -73,6 +74,17 @@ export const removeTagById = async ({ tagId }: IRemoveTag) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+  })
+}
+
+export const editTagById = async ({ name, color, _id }: IEditTag) => {
+  return await fetch(`${baseApiUrl}/tags/${_id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, color }),
   })
 }
 
