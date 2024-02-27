@@ -18,7 +18,7 @@ import {
   separateExpensesByTags,
 } from '../../common/helpers'
 import StyledPieChart from '../../common/components/StyledPieChart'
-import {useAppDispatch, useAppSelector} from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectAllCategories } from '../../redux/categories/selectors'
 import { selectAllTags } from '../../redux/tags/selectors'
 import { selectAllExpenses } from '../../redux/expenses/selectors'
@@ -100,6 +100,7 @@ const Dashboard = () => {
                       return (
                         <StyledListItem
                           key={expense._id}
+                          editHandler={() => {}}
                           removeHandler={() => removeExpense({ expenseId: expense._id })}
                         >
                           {expense.name} - {expense.value}

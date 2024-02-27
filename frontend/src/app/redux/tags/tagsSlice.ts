@@ -20,17 +20,9 @@ export const tagsSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(
-        fetchTags.pending,
-        (
-          state: {
-            list: ITag[]
-            status: string
-          },
-        ) => {
-          state.status = 'loading'
-        },
-      )
+      .addCase(fetchTags.pending, (state: { list: ITag[]; status: string }) => {
+        state.status = 'loading'
+      })
       .addCase(
         fetchTags.fulfilled,
         (

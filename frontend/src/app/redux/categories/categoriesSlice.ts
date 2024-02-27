@@ -21,17 +21,9 @@ export const categoriesSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(
-        fetchCategories.pending,
-        (
-          state: {
-            list: ICategory[]
-            status: string
-          },
-        ) => {
-          state.status = 'loading'
-        },
-      )
+      .addCase(fetchCategories.pending, (state: { list: ICategory[]; status: string }) => {
+        state.status = 'loading'
+      })
       .addCase(
         fetchCategories.fulfilled,
         (

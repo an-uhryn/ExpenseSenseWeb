@@ -37,7 +37,7 @@ export const deleteTagById = async (req: Request, res: Response) => {
 export const updateTagById = async (req: Request, res: Response) => {
   const { id } = req.params
   try {
-    const tag = await Tag.findByIdAndUpdate({ id }, { ...req.body })
+    const tag = await Tag.findOneAndUpdate({ _id: id }, { ...req.body })
     if (!tag) {
       res.status(404).json({ error: 'Tag not found' })
       return
