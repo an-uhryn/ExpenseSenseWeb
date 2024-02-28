@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, NavLink } from 'react-router-dom'
 import Navbar from './routing/components/Navbar'
 import { AppBar, Box, CssBaseline, Toolbar, Typography } from '@mui/material'
 import Router from './routing/router'
@@ -19,7 +19,9 @@ const App = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            <img src={ExpenseSenseLogo} width={36} height={36} alt="Logo" />
+            <NavLink to="/">
+              <img src={ExpenseSenseLogo} width={36} height={36} alt="Logo" />
+            </NavLink>
           </Typography>
           <Navbar />
           <UserInfo />
