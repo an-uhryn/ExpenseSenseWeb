@@ -1,4 +1,4 @@
-import express, { Router } from 'express'
+import express, {NextFunction, Request, Response, Router} from 'express'
 import {
   getAllExpenses,
   createExpense,
@@ -7,6 +7,16 @@ import {
 } from '../controllers/expenseController'
 
 const router: Router = express.Router()
+
+const authorizeUser = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user) {
+    next()
+  } else {
+    res.status(401).json({ message: 'Unauthorized' })
+  }
+}
+
+router.use(authorizeUser)
 
 router.get('/', getAllExpenses)
 router.post('/', createExpense)

@@ -13,7 +13,9 @@ import {
 const baseApiUrl = `http://localhost:4000/api`
 
 export const getCategories = async () => {
-  const response = await fetch(`${baseApiUrl}/categories/`)
+  const response = await fetch(`${baseApiUrl}/categories/`, {
+    credentials: 'include',
+  })
   return response.json()
 }
 
@@ -25,6 +27,7 @@ export const addCategory = async ({ name, description, color, icon }: IAddCatego
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, description, color, icon }),
+    credentials: 'include',
   })
   return response.json()
 }
@@ -36,6 +39,7 @@ export const removeCategoryById = async ({ categoryId }: IRemoveCategoryById) =>
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
   })
 }
 
@@ -47,11 +51,14 @@ export const editCategoryById = async ({ name, description, color, icon, _id }: 
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, description, color, icon }),
+    credentials: 'include',
   })
 }
 
 export const getTags = async () => {
-  const response = await fetch(`${baseApiUrl}/tags/`)
+  const response = await fetch(`${baseApiUrl}/tags/`, {
+    credentials: 'include',
+  })
   return response.json()
 }
 
@@ -63,6 +70,7 @@ export const addTag = async ({ name, color }: IAddTag) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, color }),
+    credentials: 'include',
   })
   return response.json()
 }
@@ -74,6 +82,7 @@ export const removeTagById = async ({ tagId }: IRemoveTag) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
   })
 }
 
@@ -85,11 +94,14 @@ export const editTagById = async ({ name, color, _id }: IEditTag) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, color }),
+    credentials: 'include',
   })
 }
 
 export const getExpenses = async () => {
-  const response = await fetch(`${baseApiUrl}/expenses/`)
+  const response = await fetch(`${baseApiUrl}/expenses/`, {
+    credentials: 'include',
+  })
   return response.json()
 }
 
@@ -107,6 +119,7 @@ export const addExpense = async ({ name, description, value, categoryId, tagIds 
       categoryId,
       tagIds,
     }),
+    credentials: 'include',
   })
   return response.json()
 }
@@ -118,6 +131,7 @@ export const removeExpenseById = async ({ expenseId }: IRemoveExpense) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
   })
 }
 
@@ -136,6 +150,7 @@ export const editExpenseById = async ({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, description, value, categoryId, tagIds }),
+    credentials: 'include',
   })
 }
 

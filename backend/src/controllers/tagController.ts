@@ -1,6 +1,10 @@
 import { Request, Response } from 'express'
 import { Tag } from '../models/tagModel'
 
+interface IUser extends Express.User {
+  id: string
+}
+
 export const getAllTags = async (req: Request, res: Response) => {
   try {
     const tag = await Tag.find({})
@@ -12,8 +16,10 @@ export const getAllTags = async (req: Request, res: Response) => {
 
 export const createTag = async (req: Request, res: Response) => {
   const { name, color } = req.body
+  const user: IUser = { id: '', ...req.user }
+
   try {
-    const tag = await Tag.create({ name, color })
+    const tag = await Tag.create({ name, color, userId: user.id })
     res.status(201).json(tag)
   } catch (error: any) {
     res.status(400).json({ error: error.message })

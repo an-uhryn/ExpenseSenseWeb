@@ -1,5 +1,5 @@
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import { IconButton, Typography, Avatar, Link } from '@mui/material'
+import { IconButton, Typography, Avatar } from '@mui/material'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { selectUser, selectUserIsAuthorized } from '../../redux/user/selectors'
@@ -14,17 +14,9 @@ const UserInfo = () => {
 
   return (
     <>
-      <Typography style={{ marginLeft: 80 }}>
-        {isAuthorized ? (
-          user.displayName
-        ) : (
-          <Link href="http://localhost:3000/login" color="#fff">
-            Login
-          </Link>
-        )}
-      </Typography>
       {isAuthorized && (
         <>
+          <Typography style={{ marginLeft: 80 }}>{user.displayName}</Typography>
           <IconButton
             size="large"
             aria-label="account of current user"

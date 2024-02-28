@@ -1,6 +1,10 @@
 import { Request, Response } from 'express'
 import { Expense } from '../models/expenseModel'
 
+interface IUser extends Express.User {
+  id: string
+}
+
 export const getAllExpenses = async (req: Request, res: Response) => {
   try {
     const expense = await Expense.find({})
@@ -12,6 +16,8 @@ export const getAllExpenses = async (req: Request, res: Response) => {
 
 export const createExpense = async (req: Request, res: Response) => {
   const { name, description, value, categoryId, tagIds } = req.body
+  const user: IUser = { id: '', ...req.user }
+
   try {
     const expense = await Expense.create({
       name,
@@ -19,6 +25,7 @@ export const createExpense = async (req: Request, res: Response) => {
       value,
       categoryId,
       tagIds,
+      userId: user.id,
     })
     res.status(201).json(expense)
   } catch (error: any) {

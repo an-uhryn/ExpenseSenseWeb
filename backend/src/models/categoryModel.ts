@@ -7,6 +7,7 @@ export interface ICategory extends Document {
   description: string
   icon: string
   color?: string
+  userId: string
 }
 
 const categorySchema = new Schema(
@@ -27,6 +28,10 @@ const categorySchema = new Schema(
       type: String,
       required: false,
       default: '#000',
+    },
+    userId: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true },
