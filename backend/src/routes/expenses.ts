@@ -1,4 +1,4 @@
-import express, {NextFunction, Request, Response, Router} from 'express'
+import express, { NextFunction, Request, Response, Router } from 'express'
 import {
   getAllExpenses,
   createExpense,

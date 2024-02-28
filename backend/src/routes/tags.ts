@@ -1,4 +1,4 @@
-import express, {NextFunction, Request, Response, Router} from 'express'
+import express, { NextFunction, Request, Response, Router } from 'express'
 import { getAllTags, createTag, deleteTagById, updateTagById } from '../controllers/tagController'
 
 const router: Router = express.Router()
