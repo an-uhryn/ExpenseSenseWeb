@@ -1,6 +1,10 @@
 import { Request, Response } from 'express'
 import { Category } from '../models/categoryModel'
 
+interface IUser extends Express.User {
+  id: string
+}
+
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
     const category = await Category.find({})
@@ -12,8 +16,10 @@ export const getAllCategories = async (req: Request, res: Response) => {
 
 export const createCategory = async (req: Request, res: Response) => {
   const { name, description, color, icon } = req.body
+  const user: IUser = { id: '', ...req.user }
+
   try {
-    const category = await Category.create({ name, description, color, icon })
+    const category = await Category.create({ name, description, color, icon, userId: user.id })
     res.status(201).json(category)
   } catch (error: any) {
     res.status(400).json({ error: error.message })

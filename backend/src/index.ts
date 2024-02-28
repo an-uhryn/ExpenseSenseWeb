@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express'
+import express, { Express, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -9,22 +9,11 @@ import tagRoutes from './routes/tags'
 import expenseRoutes from './routes/expenses'
 import authRouter from './routes/auth'
 import './auth/passport'
-import router from './routes/categories'
 
 dotenv.config()
 const port = process.env.BACKEND_PORT || 4000
 
 const app: Express = express()
-
-const authorizeUser = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user) {
-    next()
-  } else {
-    res.status(401).json({ message: 'Unauthorized' })
-  }
-}
-
-router.use(authorizeUser)
 
 app.use(
   cookieSession({

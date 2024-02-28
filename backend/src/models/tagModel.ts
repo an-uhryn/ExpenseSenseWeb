@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 export interface ITag extends Document {
   name: string
   color?: string
+  userId: string
 }
 
 const tagSchema = new Schema(
@@ -17,6 +18,10 @@ const tagSchema = new Schema(
       type: String,
       required: false,
       default: '#000',
+    },
+    userId: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true },

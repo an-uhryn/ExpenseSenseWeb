@@ -6,6 +6,7 @@ import { AppBar, Box, CssBaseline, Toolbar, Typography } from '@mui/material'
 import Router from './routing/router'
 import ExpenseSenseLogo from './images/ExpenseSense.png'
 import UserInfo from './auth/components/UserInfo'
+import AuthManager from './auth/hoc/AuthManager'
 
 const App = () => {
   return (
@@ -25,7 +26,9 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <Box component="main" style={{ padding: 100 }}>
-        <Router />
+        <AuthManager>
+          <Router />
+        </AuthManager>
       </Box>
     </BrowserRouter>
   )
