@@ -138,3 +138,37 @@ export const editExpenseById = async ({
     body: JSON.stringify({ name, description, value, categoryId, tagIds }),
   })
 }
+
+export const getUser = async () => {
+  try {
+    const response = await fetch(`http://localhost:4000/auth/login/success/`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    // const response = await axios.get(`http://localhost:4000/auth/login/success/`, { withCredentials: true });
+    // console.log(response.json())
+    return response.json()
+  } catch (e: any) {
+    throw e
+  }
+}
+
+export const logout = async () => {
+  try {
+    const response = await fetch(`http://localhost:4000/auth/logout`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    return response.json()
+  } catch (e: any) {
+    throw e
+  }
+}

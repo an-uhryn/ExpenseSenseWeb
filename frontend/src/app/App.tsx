@@ -5,6 +5,7 @@ import Navbar from './routing/components/Navbar'
 import { AppBar, Box, CssBaseline, Toolbar, Typography } from '@mui/material'
 import Router from './routing/router'
 import ExpenseSenseLogo from './images/ExpenseSense.png'
+import UserInfo from './auth/components/UserInfo'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <img src={ExpenseSenseLogo} width={36} height={36} alt="Logo" />
           </Typography>
           <Navbar />
+          <UserInfo />
         </Toolbar>
       </AppBar>
       <Box component="main" style={{ padding: 100 }}>

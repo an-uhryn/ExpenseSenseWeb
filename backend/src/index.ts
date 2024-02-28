@@ -1,26 +1,57 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import passport from 'passport'
+import cookieSession from 'cookie-session'
 import categoriesRoutes from './routes/categories'
 import tagRoutes from './routes/tags'
 import expenseRoutes from './routes/expenses'
+import authRouter from './routes/auth'
+import './auth/passport'
+import router from './routes/categories'
 
 dotenv.config()
-const port = process.env.PORT || 4000
+const port = process.env.BACKEND_PORT || 4000
 
 const app: Express = express()
 
+const authorizeUser = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user) {
+    next()
+  } else {
+    res.status(401).json({ message: 'Unauthorized' })
+  }
+}
+
+router.use(authorizeUser)
+
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['expenseSense'],
+    maxAge: 24 * 60 * 60 * 100,
+  }),
+)
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    methods: 'GET,POST,PATCH,DELETE,PUT',
+    credentials: true,
+  }),
+)
 app.use(express.json())
-app.use(cors())
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server')
+  res.send('ExpenseSense server is running...')
 })
 
 app.use('/api/categories', categoriesRoutes)
 app.use('/api/tags', tagRoutes)
 app.use('/api/expenses', expenseRoutes)
+app.use('/auth', authRouter)
 
 mongoose
   .connect(process.env.MONGO_URI as string)

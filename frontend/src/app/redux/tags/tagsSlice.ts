@@ -16,6 +16,7 @@ export const tagsSlice = createSlice({
   reducers: {
     setTags: (state, action: PayloadAction<ITag[]>) => {
       state.list = action.payload
+      state.status = 'loaded'
     },
   },
   extraReducers(builder) {
