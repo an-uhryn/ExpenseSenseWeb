@@ -154,6 +154,51 @@ export const editExpenseById = async ({
   })
 }
 
+export const getGroups = async () => {
+  const response = await fetch(`${baseApiUrl}/groups/`, {
+    credentials: 'include',
+  })
+  return response.json()
+}
+
+export const addGroup = async ({ name }: { name: string }) => {
+  const response = await fetch(`${baseApiUrl}/groups/`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+    }),
+    credentials: 'include',
+  })
+  return response.json()
+}
+
+export const removeGroupById = async ({ groupId }: { groupId: string }) => {
+  return await fetch(`${baseApiUrl}/groups/${groupId}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+}
+
+export const editGroupById = async ({ name, _id }: { name: string; _id: string }) => {
+  return await fetch(`${baseApiUrl}/groups/${_id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name }),
+    credentials: 'include',
+  })
+}
+
 export const getUser = async () => {
   try {
     const response = await fetch(`http://localhost:4000/auth/login/success/`, {

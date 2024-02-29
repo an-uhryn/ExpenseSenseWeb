@@ -14,6 +14,7 @@ const Navbar = () => {
           <NavbarItem path="/categories" name="Categories" />
           <NavbarItem path="/tags" name="Tags" />
           <NavbarItem path="/expenses" name="Expenses" />
+          <NavbarItem path="/groups" name="Groups" />
         </>
       )}
     </Box>
