@@ -20,12 +20,12 @@ export const getAllGroups = async (req: Request, res: Response) => {
 
 export const createGroup = async (req: Request, res: Response) => {
   try {
-    const { name, color } = req.body
+    const { name } = req.body
     const user: IUser = { id: '', ...req.user }
     const groups: Array<HydratedDocument<IGroup, unknown, {}>> = await Group.find({userId: user.id}).exec()
 
     if (!groups.length) {
-      const group = await Group.create({ name, color, userId: user.id })
+      const group = await Group.create({ name, userId: user.id })
       res.status(201).json(group)
     } else {
       res.status(400).json({ error: "You can't create more than one group." })
