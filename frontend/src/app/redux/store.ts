@@ -4,6 +4,7 @@ import tagsReducer from './tags/tagsSlice'
 import expensesReducer from './expenses/expensesSlice'
 import modalReducer from './modal/modalSlice'
 import userReducer from './user/userSlice'
+import groupReducer from './groups/groupsSlice'
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     expenses: expensesReducer,
     modal: modalReducer,
     user: userReducer,
+    groups: groupReducer,
   },
 })
 

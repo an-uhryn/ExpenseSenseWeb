@@ -7,6 +7,7 @@ import cookieSession from 'cookie-session'
 import categoriesRoutes from './routes/categories'
 import tagRoutes from './routes/tags'
 import expenseRoutes from './routes/expenses'
+import groupRoutes from './routes/groups'
 import authRouter from './routes/auth'
 import './auth/passport'
 
@@ -40,6 +41,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/categories', categoriesRoutes)
 app.use('/api/tags', tagRoutes)
 app.use('/api/expenses', expenseRoutes)
+app.use('/api/groups', groupRoutes)
 app.use('/auth', authRouter)
 
 mongoose

@@ -92,3 +92,11 @@ export interface IChartDatasetItem {
   value: number
   label: string
 }
+
+export interface IGroup {
+  name: string
+  userId: string
+  members: string[]
+  _id: string
+  createdAt: Date
+}
