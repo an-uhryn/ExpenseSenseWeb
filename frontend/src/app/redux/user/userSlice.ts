@@ -3,7 +3,7 @@ import { getUser } from '../../api'
 
 interface IUser {
   displayName: string
-  emails: []
+  emails: { value: string }[]
   id: string
   name: { familyName: string; givenName: string }
   photos: { value: string }[]

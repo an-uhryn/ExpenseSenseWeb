@@ -13,6 +13,8 @@ import { selectAllGroups } from '../../redux/groups/selectors'
 import { fetchGroups } from '../../redux/groups/groupsSlice'
 import { setModalState } from '../../redux/modal/modalSlice'
 import ModalWindow from '../../common/components/ModalWindow'
+import { Grid } from '@mui/material'
+import ContainerTitle from '../../common/components/ContainerTitle'
 
 const Groups = () => {
   const dispatch = useAppDispatch()
@@ -64,29 +66,59 @@ const Groups = () => {
   return (
     <PageContainer>
       <PageTitle>Groups</PageTitle>
-      <PageHeaderBox>
-        <StyledTextField
-          label="Name"
-          onChange={(event) => {
-            setName(event.target.value)
-          }}
-        />
-        <StyledButton onClick={() => addNewGroup({ name })}>Add group</StyledButton>
-      </PageHeaderBox>
+      <Grid container>
+        <Grid sm={6} style={{ paddingRight: 15 }}>
+          <ContainerTitle>Your groups</ContainerTitle>
+          <PageHeaderBox>
+            <StyledTextField
+              label="Name"
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+            <StyledButton onClick={() => addNewGroup({ name })}>Add group</StyledButton>
+          </PageHeaderBox>
+          <StyledList>
+            {groups.map((group) => {
+              return (
+                <StyledListItem
+                  key={group._id}
+                  editHandler={() => openEditGroupModal({ id: group._id })}
+                  removeHandler={() => removeGroup({ groupId: group._id })}
+                >
+                  <GroupListItemContent group={group} />
+                </StyledListItem>
+              )
+            })}
+          </StyledList>
+        </Grid>
+        <Grid sm={6} style={{ paddingLeft: 15 }}>
+          <ContainerTitle>Your invitations</ContainerTitle>
+          <PageHeaderBox>
+            <StyledTextField
+              label="Name"
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+            <StyledButton onClick={() => addNewGroup({ name })}>Add invitation</StyledButton>
+          </PageHeaderBox>
+          <StyledList>
+            {groups.map((group) => {
+              return (
+                <StyledListItem
+                  key={group._id}
+                  editHandler={() => openEditGroupModal({ id: group._id })}
+                  removeHandler={() => removeGroup({ groupId: group._id })}
+                >
+                  <GroupListItemContent group={group} />
+                </StyledListItem>
+              )
+            })}
+          </StyledList>
+        </Grid>
+      </Grid>
 
-      <StyledList>
-        {groups.map((group) => {
-          return (
-            <StyledListItem
-              key={group._id}
-              editHandler={() => openEditGroupModal({ id: group._id })}
-              removeHandler={() => removeGroup({ groupId: group._id })}
-            >
-              <GroupListItemContent group={group} />
-            </StyledListItem>
-          )
-        })}
-      </StyledList>
       <ModalWindow>
         <PageHeaderBox>
           <StyledTextField
