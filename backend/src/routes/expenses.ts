@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response, Router } from 'express'
+import express, { Router } from 'express'
 import {
   getAllExpenses,
   createExpense,
@@ -6,18 +6,11 @@ import {
   updateExpenseById,
   getGroupExpenses,
 } from '../controllers/expenseController'
+import { isAuthorizedMiddleware } from '../auth/isAuthorizedMiddleware'
 
 const router: Router = express.Router()
 
-const authorizeUser = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user) {
-    next()
-  } else {
-    res.status(401).json({ message: 'Unauthorized' })
-  }
-}
-
-router.use(authorizeUser)
+router.use(isAuthorizedMiddleware)
 
 router.get('/', getAllExpenses)
 router.get('/group/:id', getGroupExpenses)

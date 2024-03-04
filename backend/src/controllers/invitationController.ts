@@ -2,17 +2,12 @@ import { Request, Response } from 'express'
 import { Invitation } from '../models/invitationModel'
 import { User } from '../models/userModel'
 import { Group } from '../models/groupModel'
-
-interface IUser extends Express.User {
-  id: string
-}
+import { getUser } from '../common/helpers'
 
 export const getAllInvitations = async (req: Request, res: Response) => {
   try {
-    const user: IUser = { id: '', ...req.user }
-
+    const user = getUser(req)
     const invitation = await Invitation.find({ inviter: user.id })
-
     res.status(200).json(invitation)
   } catch (error: any) {
     res.status(500).json({ error: error.message })
@@ -22,11 +17,10 @@ export const getAllInvitations = async (req: Request, res: Response) => {
 export const getAllInvitationsById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const user: IUser = { id: '', ...req.user }
+    const user = getUser(req)
 
     if (id === user.id) {
       const invitation = await Invitation.find({ invitee: id })
-
       res.status(200).json(invitation)
     } else {
       res.status(401).json({ error: 'You are not allowed to get invitations of different user.' })
@@ -39,8 +33,7 @@ export const getAllInvitationsById = async (req: Request, res: Response) => {
 export const createInvitation = async (req: Request, res: Response) => {
   try {
     const { invitee, groupId } = req.body
-    const user: IUser = { id: '', ...req.user }
-
+    const user = getUser(req)
     const userExists = await User.findOne({ id: invitee })
 
     if (userExists) {
@@ -67,12 +60,11 @@ export const acceptInvitationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const { groupId } = req.body
-    const user: IUser = { id: '', ...req.user }
+    const user = getUser(req)
     const query = {
       _id: id,
       invitee: user.id,
     }
-
     const userIsAlreadyAMemberOfThisGroup = await Group.findOne({
       _id: groupId,
       'members.id': user.id,
@@ -88,11 +80,7 @@ export const acceptInvitationById = async (req: Request, res: Response) => {
 
     if (invitation) {
       const invitee = await User.findOne({ id: user.id })
-      await Group.findOneAndUpdate(
-        { _id: groupId },
-        { $push: { members: invitee } },
-        { new: true },
-      )
+      await Group.findOneAndUpdate({ _id: groupId }, { $push: { members: invitee } }, { new: true })
       await Invitation.findByIdAndDelete(query)
     } else {
       res.status(401).json({ error: 'Something went wrong' })
@@ -108,19 +96,18 @@ export const acceptInvitationById = async (req: Request, res: Response) => {
 export const deleteInvitationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const user: IUser = { id: '', ...req.user }
-
+    const user = getUser(req)
     const query = {
       _id: id,
       $or: [{ inviter: user.id }, { invitee: user.id }],
     }
-
     const invitation = await Invitation.findOneAndDelete(query)
 
     if (!invitation) {
       res.status(404).json({ error: 'Invitation not found' })
       return
     }
+
     res.status(200).json(invitation)
   } catch (error: any) {
     res.status(500).json({ error: error.message })
@@ -130,13 +117,13 @@ export const deleteInvitationById = async (req: Request, res: Response) => {
 export const updateInvitationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-
     const invitation = await Invitation.findOneAndUpdate({ _id: id }, { ...req.body })
 
     if (!invitation) {
       res.status(404).json({ error: 'Invitation not found' })
       return
     }
+
     res.status(201).json(invitation)
   } catch (error: any) {
     res.status(500).json({ error: error.message })
