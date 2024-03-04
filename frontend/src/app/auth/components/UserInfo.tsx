@@ -6,11 +6,17 @@ import { selectUser, selectUserIsAuthorized } from '../../redux/user/selectors'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { logout } from '../../api'
 import { fetchUser } from '../../redux/user/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const UserInfo = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
   const isAuthorized = useAppSelector(selectUserIsAuthorized)
+  const navigate = useNavigate()
+
+  const redirectToProfile = () => {
+    navigate('/profile')
+  }
 
   return (
     <>
@@ -22,7 +28,7 @@ const UserInfo = () => {
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            onClick={() => {}}
+            onClick={redirectToProfile}
             color="inherit"
           >
             {user.photos.length ? (

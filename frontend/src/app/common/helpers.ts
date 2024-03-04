@@ -90,3 +90,11 @@ export const generateDatasetForPieChart = (
 
   return dataset
 }
+
+export const setDefaultGroup = (groupId: string) => {
+  localStorage.setItem('groupId', groupId)
+}
+
+export const getDefaultGroup = () => {
+  return localStorage.getItem('groupId')
+}

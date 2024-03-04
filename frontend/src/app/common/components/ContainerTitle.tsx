@@ -5,12 +5,12 @@ interface Props {
   children: ReactNode
 }
 
-const PageTitle = ({ children }: Props) => {
+const ContainerTitle = ({ children }: Props) => {
   return (
-    <Typography style={{ margin: '20px 0' }} variant="h4" component="div">
+    <Typography style={{ margin: '20px 0' }} variant="h6" component="div">
       {children}
     </Typography>
   )
 }
 
-export default PageTitle
+export default ContainerTitle

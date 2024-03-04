@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { Expense } from '../models/expenseModel'
+import { Group } from '../models/groupModel'
 
 interface IUser extends Express.User {
   id: string
@@ -8,8 +9,7 @@ interface IUser extends Express.User {
 export const getAllExpenses = async (req: Request, res: Response) => {
   try {
     const user: IUser = { id: '', ...req.user }
-    console.log({userId: user.id})
-    const expense = await Expense.find({userId: user.id})
+    const expense = await Expense.find({ userId: user.id })
 
     res.status(200).json(expense)
   } catch (error: any) {
@@ -17,9 +17,27 @@ export const getAllExpenses = async (req: Request, res: Response) => {
   }
 }
 
+export const getGroupExpenses = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const user: IUser = { id: '', ...req.user }
+
+    const group = await Group.findOne({ _id: id, 'members.id': user.id })
+
+    if (group) {
+      const expense = await Expense.find({ groupId: id })
+      res.status(200).json(expense)
+    } else {
+      res.status(404).json({ error: true, message: 'No such group or you are not a member.' })
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message })
+  }
+}
+
 export const createExpense = async (req: Request, res: Response) => {
   try {
-    const { name, description, value, categoryId, tagIds } = req.body
+    const { name, description, value, categoryId, tagIds, groupId } = req.body
     const user: IUser = { id: '', ...req.user }
 
     const expense = await Expense.create({
@@ -29,6 +47,7 @@ export const createExpense = async (req: Request, res: Response) => {
       categoryId,
       tagIds,
       userId: user.id,
+      groupId,
     })
 
     res.status(201).json(expense)

@@ -9,6 +9,7 @@ export interface IExpense extends Document {
   categoryId: string
   tagIds?: []
   userId: string
+  groupId: string
 }
 
 const expenseSchema = new Schema(
@@ -36,6 +37,11 @@ const expenseSchema = new Schema(
     userId: {
       type: String,
       required: true,
+    },
+    groupId: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   { timestamps: true },

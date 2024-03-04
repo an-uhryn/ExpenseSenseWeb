@@ -15,16 +15,21 @@ import { selectAllTags } from '../../redux/tags/selectors'
 import { fetchTags } from '../../redux/tags/tagsSlice'
 import { setModalState } from '../../redux/modal/modalSlice'
 import ModalWindow from '../../common/components/ModalWindow'
+import { fetchGroups } from '../../redux/groups/groupsSlice'
+import { selectAllGroups } from '../../redux/groups/selectors'
+import StyledDropdown from '../../common/components/StyledDropdown'
 
 const Tags = () => {
   const dispatch = useAppDispatch()
   const tags = useAppSelector(selectAllTags)
+  const groups = useAppSelector(selectAllGroups)
   const [name, setName] = useState('')
   const [color, setColor] = useState('#000')
   const [tagToEdit, setTagToEdit] = useState<string>('')
+  const [groupId, setGroupId] = useState<string>('')
 
   const addNewTag = ({ name, color }: IAddTag) => {
-    addTag({ name, color })
+    addTag({ name, color, groupId })
       .then(() => {
         dispatch(fetchTags())
       })
@@ -50,7 +55,7 @@ const Tags = () => {
   }
 
   const editTag = () => {
-    editTagById({ name, color, _id: tagToEdit })
+    editTagById({ name, color, _id: tagToEdit, groupId })
       .then(() => {
         dispatch(fetchTags())
         dispatch(setModalState(false))
@@ -62,6 +67,7 @@ const Tags = () => {
 
   useEffect(() => {
     dispatch(fetchTags())
+    dispatch(fetchGroups())
   }, [])
 
   return (
@@ -74,8 +80,14 @@ const Tags = () => {
             setName(event.target.value)
           }}
         />
+        <StyledDropdown
+          value={groupId}
+          label="Group"
+          onChange={(e) => setGroupId(e.target.value)}
+          data={groups}
+        />
         <StyledColorPicker color={color} onChange={setColor} />
-        <StyledButton onClick={() => addNewTag({ name, color })}>Add tag</StyledButton>
+        <StyledButton onClick={() => addNewTag({ name, color, groupId })}>Add tag</StyledButton>
       </PageHeaderBox>
 
       <StyledList>
@@ -98,6 +110,12 @@ const Tags = () => {
             onChange={(event) => {
               setName(event.target.value)
             }}
+          />
+          <StyledDropdown
+            value={groupId}
+            label="Group"
+            onChange={(e) => setGroupId(e.target.value)}
+            data={groups}
           />
           <StyledColorPicker color={color} onChange={setColor} />
           <StyledButton onClick={() => editTag()}>Update tag</StyledButton>

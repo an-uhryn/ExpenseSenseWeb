@@ -1,16 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getUser } from '../../api'
-
-interface IUser {
-  displayName: string
-  emails: []
-  id: string
-  name: { familyName: string; givenName: string }
-  photos: { value: string }[]
-  provider: string
-  _json?: any
-  _raw?: string
-}
+import { IUser } from '../../common/interfaces'
 
 interface IUserState {
   data: IUser
