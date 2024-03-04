@@ -1,16 +1,12 @@
 import { Request, Response } from 'express'
 import { Expense } from '../models/expenseModel'
 import { Group } from '../models/groupModel'
-
-interface IUser extends Express.User {
-  id: string
-}
+import { getUser } from '../common/helpers'
 
 export const getAllExpenses = async (req: Request, res: Response) => {
   try {
-    const user: IUser = { id: '', ...req.user }
+    const user = getUser(req)
     const expense = await Expense.find({ userId: user.id })
-
     res.status(200).json(expense)
   } catch (error: any) {
     res.status(500).json({ error: error.message })
@@ -20,8 +16,7 @@ export const getAllExpenses = async (req: Request, res: Response) => {
 export const getGroupExpenses = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const user: IUser = { id: '', ...req.user }
-
+    const user = getUser(req)
     const group = await Group.findOne({ _id: id, 'members.id': user.id })
 
     if (group) {
@@ -38,8 +33,7 @@ export const getGroupExpenses = async (req: Request, res: Response) => {
 export const createExpense = async (req: Request, res: Response) => {
   try {
     const { name, description, value, categoryId, tagIds, groupId } = req.body
-    const user: IUser = { id: '', ...req.user }
-
+    const user = getUser(req)
     const expense = await Expense.create({
       name,
       description,
@@ -52,20 +46,20 @@ export const createExpense = async (req: Request, res: Response) => {
 
     res.status(201).json(expense)
   } catch (error: any) {
-    res.status(400).json({ error: error.message })
+    res.status(500).json({ error: error.message })
   }
 }
 
 export const deleteExpenseById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-
     const expense = await Expense.findByIdAndDelete(id)
 
     if (!expense) {
       res.status(404).json({ error: 'Expense not found' })
       return
     }
+
     res.status(200).json(expense)
   } catch (error: any) {
     res.status(500).json({ error: error.message })
@@ -75,13 +69,13 @@ export const deleteExpenseById = async (req: Request, res: Response) => {
 export const updateExpenseById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-
     const expense = await Expense.findOneAndUpdate({ _id: id }, { ...req.body })
 
     if (!expense) {
       res.status(404).json({ error: 'Expense not found' })
       return
     }
+
     res.status(201).json(expense)
   } catch (error: any) {
     res.status(500).json({ error: error.message })
