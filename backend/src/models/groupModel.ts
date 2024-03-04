@@ -1,11 +1,12 @@
 import mongoose, { Document, Model } from 'mongoose'
+import { IUser } from './userModel'
 
 const Schema = mongoose.Schema
 
 export interface IGroup extends Document {
   name: string
-  userId: string,
-  members: string[]
+  userId: string
+  members: IUser[]
 }
 
 const groupSchema = new Schema(
@@ -21,8 +22,8 @@ const groupSchema = new Schema(
     members: {
       type: Array,
       required: true,
-      default: []
-    }
+      default: [],
+    },
   },
   { timestamps: true },
 )

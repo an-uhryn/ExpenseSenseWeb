@@ -17,6 +17,7 @@ export interface ITag {
 export interface IAddTag {
   name: string
   color: string
+  groupId?: string
 }
 
 export interface IRemoveTag {
@@ -27,6 +28,7 @@ export interface IEditTag {
   name: string
   color: string
   _id: string
+  groupId: string
 }
 
 export interface IAddCategories {
@@ -34,6 +36,7 @@ export interface IAddCategories {
   description: string
   color: string
   icon: string
+  groupId?: string
 }
 
 export interface IEditCategory {
@@ -42,6 +45,7 @@ export interface IEditCategory {
   color: string
   icon: string
   _id: string
+  groupId: string
 }
 
 export interface IRemoveCategoryById {
@@ -64,6 +68,7 @@ export interface IAddExpense {
   value: string
   categoryId: string
   tagIds: string[]
+  groupId?: string
 }
 
 export interface IEditExpense {
@@ -96,7 +101,25 @@ export interface IChartDatasetItem {
 export interface IGroup {
   name: string
   userId: string
-  members: string[]
+  members: IUser[]
   _id: string
   createdAt: Date
+}
+
+export interface IInvitation {
+  invitee: string
+  inviter: string
+  groupId: string
+  _id: string
+}
+
+export interface IUser {
+  displayName: string
+  emails: { value: string }[]
+  id: string
+  name: { familyName: string; givenName: string }
+  photos: { value: string }[]
+  provider: string
+  _json?: any
+  _raw?: string
 }

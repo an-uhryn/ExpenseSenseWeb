@@ -19,21 +19,32 @@ import { fetchTags } from '../../redux/tags/tagsSlice'
 import { selectAllTags } from '../../redux/tags/selectors'
 import ModalWindow from '../../common/components/ModalWindow'
 import { setModalState } from '../../redux/modal/modalSlice'
+import { fetchGroups } from '../../redux/groups/groupsSlice'
+import { selectAllGroups } from '../../redux/groups/selectors'
 
 const Expenses = () => {
   const dispatch = useAppDispatch()
   const expenses = useAppSelector(selectAllExpenses)
   const categories = useAppSelector(selectAllCategories)
   const tags = useAppSelector(selectAllTags)
+  const groups = useAppSelector(selectAllGroups)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('0')
   const [categoryId, setCategory] = useState('')
   const [tag, setTag] = useState('')
   const [expenseToEdit, setExpenseToEdit] = useState<string>('')
+  const [groupId, setGroupId] = useState<string>('')
 
-  const addNewExpense = ({ name, description, value, categoryId, tagIds }: IAddExpense) => {
-    addExpense({ name, description, value, categoryId, tagIds })
+  const addNewExpense = ({
+    name,
+    description,
+    value,
+    categoryId,
+    tagIds,
+    groupId,
+  }: IAddExpense) => {
+    addExpense({ name, description, value, categoryId, tagIds, groupId })
       .then(() => {
         dispatch(fetchExpenses())
       })
@@ -72,6 +83,7 @@ const Expenses = () => {
     dispatch(fetchExpenses())
     dispatch(fetchCategories())
     dispatch(fetchTags())
+    dispatch(fetchGroups())
   }, [])
 
   return (
@@ -96,6 +108,12 @@ const Expenses = () => {
           onChange={(e) => setTag(e.target.value)}
           data={tags}
         />
+        <StyledDropdown
+          value={groupId}
+          label="Group"
+          onChange={(e) => setGroupId(e.target.value)}
+          data={groups}
+        />
 
         <StyledButton
           onClick={() =>
@@ -105,6 +123,7 @@ const Expenses = () => {
               value,
               categoryId,
               tagIds: [tag],
+              groupId,
             })
           }
         >

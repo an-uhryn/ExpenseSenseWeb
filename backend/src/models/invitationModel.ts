@@ -3,7 +3,6 @@ import mongoose, { Document, Model } from 'mongoose'
 const Schema = mongoose.Schema
 
 export interface IInvitation extends Document {
-  name: string
   inviter: string
   invitee: string
   groupId: string
@@ -11,10 +10,6 @@ export interface IInvitation extends Document {
 
 const invitationSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     inviter: {
       type: String,
       required: true,
@@ -26,9 +21,12 @@ const invitationSchema = new Schema(
     groupId: {
       type: String,
       required: true,
-    }
+    },
   },
   { timestamps: true },
 )
 
-export const Invitation: Model<IInvitation> = mongoose.model<IInvitation>('Invitation', invitationSchema)
+export const Invitation: Model<IInvitation> = mongoose.model<IInvitation>(
+  'Invitation',
+  invitationSchema,
+)

@@ -43,7 +43,7 @@ app.use('/api/categories', categoriesRoutes)
 app.use('/api/tags', tagRoutes)
 app.use('/api/expenses', expenseRoutes)
 app.use('/api/groups', groupRoutes)
-app.use('/invitations', invitationRoutes)
+app.use('/api/invitations', invitationRoutes)
 app.use('/auth', authRouter)
 
 mongoose

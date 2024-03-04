@@ -4,6 +4,7 @@ import {
   createCategory,
   deleteCategoryById,
   updateCategoryById,
+  getGroupCategories,
 } from '../controllers/categoryController'
 
 const router: Router = express.Router()
@@ -19,6 +20,7 @@ const authorizeUser = (req: Request, res: Response, next: NextFunction) => {
 router.use(authorizeUser)
 
 router.get('/', getAllCategories)
+router.get('/group/:id', getGroupCategories)
 router.post('/', createCategory)
 router.delete('/:id', deleteCategoryById)
 router.patch('/:id', updateCategoryById)

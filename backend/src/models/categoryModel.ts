@@ -33,6 +33,11 @@ const categorySchema = new Schema(
       type: String,
       required: true,
     },
+    groupId: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   { timestamps: true },
 )

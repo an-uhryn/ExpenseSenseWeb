@@ -16,18 +16,23 @@ import { selectAllCategories } from '../../redux/categories/selectors'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import ModalWindow from '../../common/components/ModalWindow'
 import { setModalState } from '../../redux/modal/modalSlice'
+import StyledDropdown from '../../common/components/StyledDropdown'
+import { selectAllGroups } from '../../redux/groups/selectors'
+import { fetchGroups } from '../../redux/groups/groupsSlice'
 
 const Categories = () => {
   const dispatch = useAppDispatch()
   const categories = useAppSelector(selectAllCategories)
+  const groups = useAppSelector(selectAllGroups)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [color, setColor] = useState('#000')
   const [icon, setIcon] = useState('fastfood')
   const [categoryToEdit, setCategoryToEdit] = useState<string>('')
+  const [groupId, setGroupId] = useState<string>('')
 
-  const addNewCategory = ({ name, description, color, icon }: IAddCategories) => {
-    addCategory({ name, description, color, icon })
+  const addNewCategory = ({ name, description, color, icon, groupId }: IAddCategories) => {
+    addCategory({ name, description, color, icon, groupId })
       .then(() => {
         dispatch(fetchCategories())
       })
@@ -52,7 +57,7 @@ const Categories = () => {
   }
 
   const editCategory = () => {
-    editCategoryById({ name, description, color, icon, _id: categoryToEdit })
+    editCategoryById({ name, description, color, icon, _id: categoryToEdit, groupId })
       .then(() => {
         dispatch(fetchCategories())
         dispatch(setModalState(false))
@@ -64,6 +69,7 @@ const Categories = () => {
 
   useEffect(() => {
     dispatch(fetchCategories())
+    dispatch(fetchGroups())
   }, [])
 
   return (
@@ -83,8 +89,14 @@ const Categories = () => {
             setDescription(event.target.value)
           }}
         />
+        <StyledDropdown
+          value={groupId}
+          label="Group"
+          onChange={(e) => setGroupId(e.target.value)}
+          data={groups}
+        />
         <StyledColorPicker color={color} onChange={setColor} />
-        <StyledButton onClick={() => addNewCategory({ name, description, color, icon })}>
+        <StyledButton onClick={() => addNewCategory({ name, description, color, icon, groupId })}>
           Add category
         </StyledButton>
       </PageHeaderBox>
@@ -116,6 +128,12 @@ const Categories = () => {
             onChange={(event) => {
               setDescription(event.target.value)
             }}
+          />
+          <StyledDropdown
+            value={groupId}
+            label="Group"
+            onChange={(e) => setGroupId(e.target.value)}
+            data={groups}
           />
           <StyledColorPicker color={color} onChange={setColor} />
           <StyledButton onClick={() => editCategory()}>Update category</StyledButton>

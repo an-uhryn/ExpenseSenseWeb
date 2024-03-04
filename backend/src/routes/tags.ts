@@ -1,5 +1,11 @@
 import express, { NextFunction, Request, Response, Router } from 'express'
-import { getAllTags, createTag, deleteTagById, updateTagById } from '../controllers/tagController'
+import {
+  getAllTags,
+  createTag,
+  deleteTagById,
+  updateTagById,
+  getGroupTags,
+} from '../controllers/tagController'
 
 const router: Router = express.Router()
 
@@ -14,6 +20,7 @@ const authorizeUser = (req: Request, res: Response, next: NextFunction) => {
 router.use(authorizeUser)
 
 router.get('/', getAllTags)
+router.get('/group/:id', getGroupTags)
 router.post('/', createTag)
 router.delete('/:id', deleteTagById)
 router.patch('/:id', updateTagById)
