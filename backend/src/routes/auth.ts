@@ -18,10 +18,13 @@ passport.deserializeUser(deserializeUser)
 
 router.get('/login/success', onSuccess)
 router.get('/login/failed', onFailed)
-router.get('/google/callback', passport.authenticate('google', {
-  successRedirect: process.env.FRONTEND_HOST,
-  failureRedirect: 'login/failed',
-}))
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: process.env.FRONTEND_HOST,
+    failureRedirect: 'login/failed',
+  }),
+)
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
 router.get('/logout', logout)
 
