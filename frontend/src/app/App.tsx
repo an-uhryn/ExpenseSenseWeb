@@ -1,37 +1,18 @@
 import React from 'react'
-import './App.css'
-import { BrowserRouter, NavLink } from 'react-router-dom'
-import Navbar from './routing/components/Navbar'
-import { AppBar, Box, CssBaseline, Toolbar, Typography } from '@mui/material'
-import Router from './routing/router'
-import ExpenseSenseLogo from './images/ExpenseSense.png'
-import UserInfo from './auth/components/UserInfo'
-import AuthManager from './auth/hoc/AuthManager'
+import { BrowserRouter } from 'react-router-dom'
+import { CssBaseline } from '@mui/material'
+import Router from './router'
+import AuthManager from './authManager'
+import NavigationBar from "./components/NavigationBar";
 
 const App = () => {
   return (
     <BrowserRouter>
       <CssBaseline />
-      <AppBar component="nav">
-        <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            <NavLink to="/">
-              <img src={ExpenseSenseLogo} width={36} height={36} alt="Logo" />
-            </NavLink>
-          </Typography>
-          <Navbar />
-          <UserInfo />
-        </Toolbar>
-      </AppBar>
-      <Box component="main" style={{ padding: 100 }}>
-        <AuthManager>
-          <Router />
-        </AuthManager>
-      </Box>
+      <NavigationBar />
+      <AuthManager>
+        <Router />
+      </AuthManager>
     </BrowserRouter>
   )
 }
