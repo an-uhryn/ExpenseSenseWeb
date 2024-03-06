@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { CssBaseline } from '@mui/material'
 import Router from './router'
 import AuthManager from './authManager'
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from './components/NavigationBar'
 
 const App = () => {
   return (

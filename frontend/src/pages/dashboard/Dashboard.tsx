@@ -1,17 +1,8 @@
 import PageContainer from '../../components/PageContainer'
 import PageTitle from '../../components/PageTitle'
 import { useEffect, useState } from 'react'
-import {
-  IChartDatasetItem,
-  IExpense,
-  IExpensesByCategories,
-  IExpensesByTags,
-  IRemoveExpense,
-} from '../../common/interfaces'
-import { removeExpenseById } from '../../api'
-import { Grid, Typography, Paper } from '@mui/material'
-import StyledList from '../../components/StyledList'
-import StyledListItem from '../../components/StyledListItem'
+import { IChartDatasetItem, IExpensesByCategories, IExpensesByTags } from '../../common/interfaces'
+import { Grid, Paper } from '@mui/material'
 import {
   generateDatasetForPieChart,
   separateExpensesByCategories,
@@ -25,6 +16,7 @@ import { selectAllExpenses } from '../../redux/expenses/selectors'
 import { fetchCategories } from '../../redux/categories/categoriesSlice'
 import { fetchTags } from '../../redux/tags/tagsSlice'
 import { fetchExpenses } from '../../redux/expenses/expensesSlice'
+import DashboardDataList from './components/DashboardDataList'
 
 const Dashboard = () => {
   const dispatch = useAppDispatch()
@@ -55,16 +47,6 @@ const Dashboard = () => {
     setSortedExpenses(expensesSortedByCategory)
   }
 
-  const removeExpense = ({ expenseId }: IRemoveExpense) => {
-    removeExpenseById({ expenseId })
-      .then(() => {
-        fetchDashboardData()
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   useEffect(() => {
     if (expenses.length && categories.length && tags.length) {
       combineDataset()
@@ -90,30 +72,7 @@ const Dashboard = () => {
       </Paper>
       <Grid container>
         <Grid item xs={12}>
-          {Object.entries(sortedExpenses).map(([key, value]) => {
-            return (
-              <Grid container key={key}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{key}</Typography>
-                  <StyledList>
-                    {value.map((expense: IExpense) => {
-                      return (
-                        <StyledListItem
-                          key={expense._id}
-                          editHandler={() => {}}
-                          removeHandler={() => removeExpense({ expenseId: expense._id })}
-                        >
-                          <Typography style={{ width: '100%' }}>
-                            {expense.name} - {expense.value}
-                          </Typography>
-                        </StyledListItem>
-                      )
-                    })}
-                  </StyledList>
-                </Grid>
-              </Grid>
-            )
-          })}
+          <DashboardDataList sortedExpenses={sortedExpenses} />
         </Grid>
       </Grid>
     </PageContainer>
