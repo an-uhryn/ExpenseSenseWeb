@@ -1,8 +1,8 @@
-import {AppBar, Toolbar, Typography} from "@mui/material";
-import {NavLink} from "react-router-dom";
-import NavigationMenu from "./NavigationMenu";
-import UserInfo from "./UserInfo";
-import React from "react";
+import { AppBar, Toolbar, Typography } from '@mui/material'
+import { NavLink } from 'react-router-dom'
+import NavigationMenu from './NavigationMenu'
+import UserInfo from './UserInfo'
+import React from 'react'
 
 const NavigationBar = () => {
   return (

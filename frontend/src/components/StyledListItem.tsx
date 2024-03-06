@@ -1,15 +1,17 @@
 import { IconButton, ListItem } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import DoneIcon from '@mui/icons-material/Done'
 import { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  editHandler: () => void
+  editHandler?: () => void
   removeHandler: () => void
+  acceptHandler?: () => void
 }
 
-const StyledListItem = ({ children, editHandler, removeHandler }: Props) => {
+const StyledListItem = ({ children, editHandler, removeHandler, acceptHandler }: Props) => {
   return (
     <ListItem
       style={{
@@ -21,9 +23,19 @@ const StyledListItem = ({ children, editHandler, removeHandler }: Props) => {
       }}
     >
       {children}
-      <IconButton edge="end" aria-label="delete" onClick={editHandler}>
-        <EditIcon />
-      </IconButton>
+
+      {editHandler && (
+        <IconButton edge="end" aria-label="edit" onClick={editHandler}>
+          <EditIcon />
+        </IconButton>
+      )}
+
+      {acceptHandler && (
+        <IconButton edge="end" aria-label="accept" onClick={acceptHandler}>
+          <DoneIcon />
+        </IconButton>
+      )}
+
       <IconButton edge="end" aria-label="delete" onDoubleClick={removeHandler}>
         <DeleteIcon />
       </IconButton>
