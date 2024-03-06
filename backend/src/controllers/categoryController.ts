@@ -36,16 +36,21 @@ export const createCategory = async (req: Request, res: Response) => {
   try {
     const { name, description, color, icon, groupId } = req.body
     const user = getUser(req)
-    const category = await Category.create({
-      name,
-      description,
-      color,
-      icon,
-      userId: user.id,
-      groupId,
-    })
+    const group = !groupId || (await Group.findOne({ _id: groupId, 'members.id': user.id }))
 
-    res.status(201).json(category)
+    if (group) {
+      const category = await Category.create({
+        name,
+        description,
+        color,
+        icon,
+        userId: user.id,
+        groupId,
+      })
+      res.status(201).json(category)
+    } else {
+      res.status(401).json({ error: 'You are not allowed to create categories for this group.' })
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message })
   }
@@ -54,7 +59,8 @@ export const createCategory = async (req: Request, res: Response) => {
 export const deleteCategoryById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const category = await Category.findByIdAndDelete(id)
+    const user = getUser(req)
+    const category = await Category.findOneAndDelete({ _id: id, userId: user.id })
 
     if (!category) {
       res.status(404).json({ error: 'Category not found' })
@@ -70,7 +76,8 @@ export const deleteCategoryById = async (req: Request, res: Response) => {
 export const updateCategoryById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const category = await Category.findOneAndUpdate({ _id: id }, { ...req.body })
+    const user = getUser(req)
+    const category = await Category.findOneAndUpdate({ _id: id, userId: user.id }, { ...req.body })
 
     if (!category) {
       res.status(404).json({ error: 'Category not found' })

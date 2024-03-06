@@ -28,7 +28,8 @@ export const createGroup = async (req: Request, res: Response) => {
 export const deleteGroupById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const group = await Group.findByIdAndDelete(id)
+    const user = getUser(req)
+    const group = await Group.findOneAndDelete({ _id: id, userId: user.id })
 
     if (!group) {
       res.status(404).json({ error: 'Group not found' })
@@ -44,7 +45,8 @@ export const deleteGroupById = async (req: Request, res: Response) => {
 export const updateGroupById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const group = await Group.findOneAndUpdate({ _id: id }, { ...req.body })
+    const user = getUser(req)
+    const group = await Group.findOneAndUpdate({ _id: id, userId: user.id }, { ...req.body })
 
     if (!group) {
       res.status(404).json({ error: 'Group not found' })
@@ -60,11 +62,15 @@ export const updateGroupById = async (req: Request, res: Response) => {
 export const removeGroupMember = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
+    const user = getUser(req)
     const { memberId } = req.body
 
-    // TODO: add conditional that only owner or member can remove group member
     const group = await Group.findOneAndUpdate(
-      { _id: id, userId: { $ne: memberId } },
+      {
+        _id: id,
+        userId: { $ne: memberId },
+        $or: [{ userId: user.id }, { 'members.id': user.id }],
+      },
       { $pull: { members: { id: memberId } } },
     )
 
