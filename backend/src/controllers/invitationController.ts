@@ -34,9 +34,10 @@ export const createInvitation = async (req: Request, res: Response) => {
   try {
     const { invitee, groupId } = req.body
     const user = getUser(req)
-    const userExists = await User.findOne({ id: invitee })
+    const isGroupOwner = await Group.findOne({ _id: groupId, userId: user.id })
+    const inviteeExists = await User.findOne({ id: invitee })
 
-    if (userExists) {
+    if (isGroupOwner && inviteeExists) {
       const userIsAlreadyAMemberOfThisGroup = await Group.findOne({
         _id: groupId,
         'members.id': invitee,
@@ -61,7 +62,7 @@ export const acceptInvitationById = async (req: Request, res: Response) => {
     const { id } = req.params
     const { groupId } = req.body
     const user = getUser(req)
-    const query = {
+    const inviteeQuery = {
       _id: id,
       invitee: user.id,
     }
@@ -71,17 +72,17 @@ export const acceptInvitationById = async (req: Request, res: Response) => {
     })
 
     if (userIsAlreadyAMemberOfThisGroup) {
-      await Invitation.findByIdAndDelete(query)
+      await Invitation.findByIdAndDelete(inviteeQuery)
       res.status(401).json({ error: true, message: 'User is already a member of that group.' })
       return
     }
 
-    const invitation = await Invitation.findOne(query)
+    const invitation = await Invitation.findOne(inviteeQuery)
 
     if (invitation) {
       const invitee = await User.findOne({ id: user.id })
       await Group.findOneAndUpdate({ _id: groupId }, { $push: { members: invitee } }, { new: true })
-      await Invitation.findByIdAndDelete(query)
+      await Invitation.findOneAndDelete(inviteeQuery)
     } else {
       res.status(401).json({ error: 'Something went wrong' })
       return
@@ -97,11 +98,11 @@ export const deleteInvitationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const user = getUser(req)
-    const query = {
+    const inviterOrInviteeQuery = {
       _id: id,
       $or: [{ inviter: user.id }, { invitee: user.id }],
     }
-    const invitation = await Invitation.findOneAndDelete(query)
+    const invitation = await Invitation.findOneAndDelete(inviterOrInviteeQuery)
 
     if (!invitation) {
       res.status(404).json({ error: 'Invitation not found' })
@@ -117,7 +118,11 @@ export const deleteInvitationById = async (req: Request, res: Response) => {
 export const updateInvitationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const invitation = await Invitation.findOneAndUpdate({ _id: id }, { ...req.body })
+    const user = getUser(req)
+    const invitation = await Invitation.findOneAndUpdate(
+      { _id: id, userId: user.id },
+      { ...req.body },
+    )
 
     if (!invitation) {
       res.status(404).json({ error: 'Invitation not found' })

@@ -37,8 +37,14 @@ export const createTag = async (req: Request, res: Response) => {
   try {
     const { name, color, groupId } = req.body
     const user = getUser(req)
-    const tag = await Tag.create({ name, color, userId: user.id, groupId })
-    res.status(201).json(tag)
+    const group = !groupId || (await Group.findOne({ _id: groupId, 'members.id': user.id }))
+
+    if (group) {
+      const tag = await Tag.create({ name, color, userId: user.id, groupId })
+      res.status(201).json(tag)
+    } else {
+      res.status(401).json({ error: 'You are not allowed to create tags for this group.' })
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message })
   }
@@ -47,7 +53,8 @@ export const createTag = async (req: Request, res: Response) => {
 export const deleteTagById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const tag = await Tag.findByIdAndDelete(id)
+    const user = getUser(req)
+    const tag = await Tag.findOneAndDelete({ _id: id, userId: user.id })
 
     if (!tag) {
       res.status(404).json({ error: 'Tag not found' })
@@ -63,7 +70,8 @@ export const deleteTagById = async (req: Request, res: Response) => {
 export const updateTagById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const tag = await Tag.findOneAndUpdate({ _id: id }, { ...req.body })
+    const user = getUser(req)
+    const tag = await Tag.findOneAndUpdate({ _id: id, userId: user.id }, { ...req.body })
 
     if (!tag) {
       res.status(404).json({ error: 'Tag not found' })
